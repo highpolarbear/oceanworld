@@ -18,5 +18,17 @@ public class Shrimp extends Herbivores
         super(field, location);
     }
 
-    public void act(List<Animal> newAnimals){}
+    public void act(List<Animal> newShrimp){
+    
+        if (isAlive()){
+            giveBirth();
+        }
+    
+    }
+    
+    public void giveBirth(){
+    
+        //give birth = new shrimp.
+        
+    }
 }
