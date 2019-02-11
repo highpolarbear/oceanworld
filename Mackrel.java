@@ -5,7 +5,7 @@ import java.util.List;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Mackrel extends Fish
+public class Mackrel extends Carnivores
 {
     // instance variables - replace the example below with your own
     private int x;
