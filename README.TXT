@@ -1,18 +1,9 @@
-Project: foxes-and-rabbits-v2
-Authors: Michael Kölling and David J. Barnes
+Project: Ocean World
+Authors: Terry Phung, David Yin, Cherry Lim Siang Sue
 
-This project is part of the material for chapter 10 of the book
+This project is of the third coursework of PPA
 
-   Objects First with Java - A Practical Introduction using BlueJ
-   Sixth edition
-   David J. Barnes and Michael Kölling
-   Pearson Education, 2016
-
-A predator-prey simulation involving foxes and rabbits in
-an enclosed rectangular field.
-
-This is the first version of the simulation. This version
-does not use inheritance.
+A predator-prey simulation involving Ocean animals.
 
 How to start:
     Create a Simulator object.
