@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Shrimp
+comment0.text=\n\ Write\ a\ description\ of\ class\ Shrimp\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=field\ location
+comment1.target=Shrimp(Field,\ Location)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Shrimp\n
+comment2.params=newShrimp
+comment2.target=void\ act(java.util.List)
+comment3.params=newShrimp
+comment3.target=void\ giveBirth(java.util.List)
+comment4.params=
+comment4.target=int\ breed()
+comment5.params=
+comment5.target=void\ incrementAge()
+comment6.params=
+comment6.target=boolean\ canBreed()
+comment7.params=
+comment7.target=int\ getAge()
+numComments=8

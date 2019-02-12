@@ -111,6 +111,7 @@ public class Field
     public Location randomAdjacentLocation(Location location)
     {
         List<Location> adjacent = adjacentLocations(location);
+        System.out.println(adjacent.size());
         return adjacent.get(0);
     }
     
@@ -158,7 +159,7 @@ public class Field
      * @param location The location from which to generate adjacencies.
      * @return A list of locations adjacent to that given.
      */
-    public List<Location> adjacentLocations(Location location)
+    public List<Location> adjacentLocations(Location location)  
     {
         assert location != null : "Null location passed to adjacentLocations";
         // The list of locations to be returned.
@@ -185,7 +186,7 @@ public class Field
         }
         return locations;
     }
-
+    
     /**
      * Return the depth of the field.
      * @return The depth of the field.

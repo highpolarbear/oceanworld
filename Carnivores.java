@@ -5,7 +5,7 @@ import java.util.List;
  * @author (your name)
  * @version (a version number or a date)
  */
-public abstract class Carnivores extends Animal
+public abstract class Carnivores extends Organism
 {
     // instance variables - replace the example below with your own
     private int x;
@@ -19,15 +19,6 @@ public abstract class Carnivores extends Animal
         super(field, location);
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
-    }
+
+    public void act(List<Organism> newAnimals){}
 }

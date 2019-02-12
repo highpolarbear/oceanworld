@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Plant
+comment0.text=\n\ Write\ a\ description\ of\ class\ Plants\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=field\ location
+comment1.target=Plant(Field,\ Location)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ SeaWeed\n
+comment2.params=
+comment2.target=long\ spreadProbability()
+comment3.params=
+comment3.target=Location\ selectRandomLocation()
+comment4.params=newPlant
+comment4.target=void\ makeNewPlant(java.util.List)
+comment5.params=newPlant
+comment5.target=void\ act(java.util.List)
+comment6.params=
+comment6.target=int\ getAge()
+comment7.params=
+comment7.target=void\ incrementAge()
+numComments=8

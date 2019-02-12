@@ -5,10 +5,12 @@ import java.util.List;
  * @author (your name)
  * @version (a version number or a date)
  */
-public abstract class Herbivores extends Animal
+public abstract class Herbivores extends Organism
 {
     public Herbivores(Field field, Location location)
     {
         super(field, location);
     }
+    
+    abstract public void act(List<Organism> newAnimals);
 }
