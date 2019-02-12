@@ -20,3 +20,7 @@ Carnivores : can eat the animals that are Herbivores or plants.
 Herbivoers : can only eat plants.
 
 Goal : Balanced ecosystem. All organism must survive.
+
+Current status : - Working on gender
+                 - Working on Plants generation and balanced spawning.
+                 - Time.
