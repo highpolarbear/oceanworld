@@ -11,3 +11,12 @@ How to start:
         + simulateOneStep - for a single step.
         + simulate - and supply a number (say 10) for that many steps.
         + runLongSimulation - for a simulation of 500 steps.
+- Program based on an Organism
+    Animals are classified under Carnivores or Herbivores
+    Plants are a part of the eco system.
+   
+   
+Carnivores : can eat the animals that are Herbivores or plants.
+Herbivoers : can only eat plants.
+
+Goal : Balanced ecosystem. All organism must survive.
