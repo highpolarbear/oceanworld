@@ -19,7 +19,7 @@ public class Plant extends Organism
     
     private boolean alive;
     
-    private Field currentField;
+    private Field field;
     
     private int MAX_AGE;
     
@@ -29,81 +29,67 @@ public class Plant extends Organism
     public Plant(Field field, Location location)
     {
         super(field, location);
-        field.place(this, location);
+        //field.place(this, location);
         alive = true;
         age = 0;
-        MAX_AGE = 2;
-        
-        currentField = field;
+        MAX_AGE = 1;
     } 
     
-    public long spreadProbability(){
+    public int spreadProbability(){
         return rand.nextInt(2);
     }
     
     private Location selectRandomLocation(){
+        Field field = getField();
 
         Location randomLocation;
         
-        int row = rand.nextInt(80);
-        int column = rand.nextInt(120);
+        int row = rand.nextInt(field.getDepth());
+        int column = rand.nextInt(field.getWidth());
         
         randomLocation = new Location (row, column);
         
         return randomLocation;
     }
     
-    public void makeNewPlant(List<Organism> newPlant){
+    public void makeNewPlant(List<Organism> newPlants){
         
         Field field = getField();
-        
         Location location = selectRandomLocation();
-
+        //int births = spreadProbability();
         
-        Plant newplant = new Plant(field, location);
-        currentField.place(newplant,location);
-        System.out.println("seaweed being placed");
-        
+        Plant youngPlant = new Plant(field, location);
+        newPlants.add(youngPlant);
 
-       
-        /**
-        if ( field.getObjectAt(location) == null){
-            Plant newplant = new Plant(field, location);
-            field.place(newplant,location);
-            System.out.println("seaweed being placed");
-        }*/
        
     }
     
     public void act(List<Organism> newPlant){
         incrementAge();
         
-        makeNewPlant(newPlant);
+        System.out.println(getAge());
         
-        
-        /**Field field = currentField;
-        
-         spreadRatio = spreadProbability();
-        
-        //System.out.println("plant called, ratio : " + spreadRatio);
-        
-        for (int i = 0; i < 2; i++){
+        if (isAlive()){
+            makeNewPlant(newPlant);
             Location location = selectRandomLocation();
-        
-            if ( field.getObjectAt(location) == null){
-                Plant newplant = new Plant(field, location);
-                field.place(newplant,location);
-                System.out.println("seaweed being placed");
-            } }*/
+            if (getField().getObjectAt(location) == null){
+                
+                setLocation(location);
             
+            }
+            
+            else {
+                
+                setDead();
+                
+            }
+        }
             
         
     }
     
     public int getAge(){
-        
         return age;
-    
     }
     
     private void incrementAge()

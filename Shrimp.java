@@ -17,6 +17,7 @@ public class Shrimp extends Herbivores
     Random rand = Randomizer.getRandom();
     int age;
     int MAX_AGE;
+    Field field;
 
     /**
      * Constructor for objects of class Shrimp
@@ -26,6 +27,7 @@ public class Shrimp extends Herbivores
         super(field, location);
         age = 0;
         MAX_AGE = 10;
+
     }
 
     public void act(List<Organism> newShrimp){
@@ -65,7 +67,6 @@ public class Shrimp extends Herbivores
         int births = 0;
         
         int probability = (int) (rand.nextInt(100) * BREEDING_PROBABILITY);
-        System.out.println(probability);
         
         births = probability;
         
