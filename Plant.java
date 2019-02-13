@@ -67,8 +67,6 @@ public class Plant extends Organism
     public void act(List<Organism> newPlant){
         incrementAge();
         
-        System.out.println(getAge());
-        
         if (isAlive()){
             makeNewPlant(newPlant);
             Location location = selectRandomLocation();
