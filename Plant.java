@@ -32,7 +32,7 @@ public class Plant extends Organism
         //field.place(this, location);
         alive = true;
         age = 0;
-        MAX_AGE = 5;
+        MAX_AGE = 20*7 + 2;
     } 
     
     public int spreadProbability(){
@@ -72,7 +72,7 @@ public class Plant extends Organism
     public void act(List<Organism> newPlant){
         incrementAge();
         
-        if (isAlive()){
+        if (isAlive() && Time.isDay()){
             makeNewPlant(newPlant);
             Location location = selectRandomLocation();
             if (getField().getObjectAt(location) == null){

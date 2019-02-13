@@ -7,7 +7,9 @@ import java.util.List;
  */
 public abstract class Carnivores extends Organism
 {
-
+    
+    protected Character[] genders = {'m', 'f'};
+    
     public Carnivores(Field field, Location location)
     {
         // initialise instance variables

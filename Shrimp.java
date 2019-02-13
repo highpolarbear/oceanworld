@@ -20,7 +20,8 @@ public class Shrimp extends Herbivores
     private int MAX_AGE;
     private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 2;
+    private int PLANT_FOOD_VALUE = 3;
+    private Character gender;
 
     /**
      * Constructor for objects of class Shrimp
@@ -30,7 +31,8 @@ public class Shrimp extends Herbivores
         super(field, location);
         age = 0;
         MAX_AGE = 10;
-        foodLevel = 2;
+        foodLevel = 3000;
+        gender = genders[rand.nextInt(2)];
     }
 
     public void act(List<Organism> newShrimp){
@@ -38,8 +40,10 @@ public class Shrimp extends Herbivores
         incrementAge();
         incrementHunger();
         
-        if (isAlive()){
-            giveBirth(newShrimp);
+        if (isAlive()&& Time.isDay()){
+            if(isFemale() && mateFound()) {
+                giveBirth(newShrimp);
+            }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
             Location newLocation = findFood();
             if (newLocation == null){
@@ -134,4 +138,36 @@ public class Shrimp extends Herbivores
         }
         return null;
     }
+
+    private boolean mateFound()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            if(animal instanceof Shrimp) {
+                Shrimp shrimp = (Shrimp) animal;
+                if(!shrimp.isFemale()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if it is female
+     */
+    public boolean isFemale()
+    {
+        if (gender.equals('f')) { 
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 }

@@ -47,7 +47,7 @@ public class Time
     /**
      * Returns whether it is daytime or nighttime.
      */
-    public static boolean getIsDay()
+    public static boolean isDay()
     {
         return isDay;
     }

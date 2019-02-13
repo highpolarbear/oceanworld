@@ -129,6 +129,8 @@ public class Simulator
         organisms.addAll(newOrganisms);
         
         view.showStatus(step, field, hour);
+        
+        System.out.println("Hour : " + hour + " , tick : " + step);
     }
         
     /**
@@ -184,4 +186,5 @@ public class Simulator
             // wake up
         }
     }
+    
 }

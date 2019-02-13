@@ -7,6 +7,9 @@ import java.util.List;
  */
 public abstract class Herbivores extends Organism
 {
+    
+    protected Character[] genders = {'m', 'f'};
+    
     public Herbivores(Field field, Location location)
     {
         super(field, location);
