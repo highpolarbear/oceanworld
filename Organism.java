@@ -15,6 +15,7 @@ public abstract class Organism
     // The animal's position in the field.
     private Location location;
     
+    protected int PLANT_FOOD_VALUE = 5;
     
     /**
      * Constructor for objects of class Organism

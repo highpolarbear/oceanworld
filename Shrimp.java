@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Random;
+import java.util.Iterator;
 
 /**
  * Write a description of class Shrimp here.
@@ -12,12 +13,14 @@ public class Shrimp extends Herbivores
 {
     // instance variables - replace the example below with your own
     
-    int BREEDING_AGE = 1;
-    double BREEDING_PROBABILITY = 0.02;
-    Random rand = Randomizer.getRandom();
-    int age;
-    int MAX_AGE;
-    Field field;
+    private int BREEDING_AGE = 1;
+    private double BREEDING_PROBABILITY = 0.02;
+    private Random rand = Randomizer.getRandom();
+    private int age;
+    private int MAX_AGE;
+    private int foodLevel;
+    private Field field;
+    private int PLANT_FOOD_VALUE = 2;
 
     /**
      * Constructor for objects of class Shrimp
@@ -27,16 +30,22 @@ public class Shrimp extends Herbivores
         super(field, location);
         age = 0;
         MAX_AGE = 10;
-
+        foodLevel = 2;
     }
 
     public void act(List<Organism> newShrimp){
         
         incrementAge();
+        incrementHunger();
         
         if (isAlive()){
             giveBirth(newShrimp);
-            Location newLocation = getField().freeAdjacentLocation(getLocation());
+            //Location newLocation = getField().freeAdjacentLocation(getLocation());
+            Location newLocation = findFood();
+            if (newLocation == null){
+                
+                newLocation = getField().freeAdjacentLocation(getLocation());
+            }
             if(newLocation != null) {
                 setLocation(newLocation);
             }
@@ -81,6 +90,14 @@ public class Shrimp extends Herbivores
         }
     }
     
+    private void incrementHunger()
+    {
+        foodLevel--;
+        if (foodLevel <= 0){
+            setDead();
+        }
+    }
+    
     private boolean canBreed(){
         boolean returnValue;
         
@@ -96,5 +113,25 @@ public class Shrimp extends Herbivores
     
     public int getAge(){
         return age;
+    }
+    
+        private Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object organism = field.getObjectAt(where);
+            if(organism instanceof Plant) {
+                Plant plant = (Plant) organism;
+                if(plant.isAlive()) { 
+                    plant.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
+        return null;
     }
 }
