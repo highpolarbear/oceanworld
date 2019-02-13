@@ -3,7 +3,6 @@ comment0.target=Carnivores
 comment0.text=\n\ Write\ a\ description\ of\ class\ Fish\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
 comment1.params=field\ location
 comment1.target=Carnivores(Field,\ Location)
-comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Fish\n
 comment2.params=newAnimals
 comment2.target=void\ act(java.util.List)
 numComments=3
