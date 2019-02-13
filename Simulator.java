@@ -38,6 +38,8 @@ public class Simulator
     private int step;
     // A graphical view of the simulation.
     private SimulatorView view;
+    // The current hour in simulation.
+    private int hour;
     
     /**
      * Construct a simulation field with default size.
@@ -105,6 +107,8 @@ public class Simulator
     public void simulateOneStep()
     {
         step++;
+        Time.updateHours(step);
+        hour = Time.getHours();
 
         // Provide space for newborn animals.
         List<Organism> newOrganisms = new ArrayList<>();
@@ -124,7 +128,7 @@ public class Simulator
         // Add the newly born foxes and rabbits to the main lists.
         organisms.addAll(newOrganisms);
         
-        view.showStatus(step, field);
+        view.showStatus(step, field, hour);
     }
         
     /**
@@ -133,11 +137,12 @@ public class Simulator
     public void reset()
     {
         step = 0;
+        hour = 0;
         organisms.clear();
         populate();
         
         // Show the starting state in the view.
-        view.showStatus(step, field);
+        view.showStatus(step, field, hour);
     }
     
     /**
