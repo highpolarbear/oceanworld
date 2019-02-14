@@ -22,6 +22,7 @@ public class Shrimp extends Herbivores
     private Field field;
     private int PLANT_FOOD_VALUE = 3;
     private Character gender;
+    private int x;
 
     /**
      * Constructor for objects of class Shrimp
