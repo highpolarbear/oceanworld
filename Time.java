@@ -22,14 +22,14 @@ public class Time
 
     /**
      * Increment hour every 20 steps.
-     */
+     *
     public static void updateHours(int step)
     {
         if (step % 20 == 0) {
             hours = (hours + 1) % 24;
             toggleDay();
         }
-    }
+    } */
     
     /**
      * Times from 7am to 6pm are daytime. Else it is nighttime.
@@ -54,6 +54,15 @@ public class Time
     
     public static int getHours()
     {
+        return hours;
+    }
+    
+    public static int updateHours(int step){
+        if (step % 20 == 0){
+            hours++;
+            hours = hours % 24;
+        }
+        
         return hours;
     }
 }

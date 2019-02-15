@@ -31,7 +31,7 @@ public class Shrimp extends Herbivores
     {
         super(field, location);
         age = 0;
-        MAX_AGE = 10;
+        MAX_AGE = 1000;
         foodLevel = 3000;
         gender = genders[rand.nextInt(2)];
     }
