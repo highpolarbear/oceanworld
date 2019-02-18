@@ -22,6 +22,7 @@ Tasks completed :
 To be worked : 
  - Survivability
  - Time (re-implimentation) + stabilisation
+ - Ecosystem stabilisation
  - Add the rest of the animals
 
 To be implemented : 
