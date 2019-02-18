@@ -3,49 +3,47 @@ import java.util.Random;
 import java.util.Iterator;
 
 /**
- * Write a description of class Squid here.
+ * Write a description of class BabyShark here.
  *
  * @author (your name)
- * @version (a version number or a date)!
+ * @version (a version number or a date)
  */
 
-public class Squid extends Herbivores
+public class BabyShark extends Carnivores
 {
     // instance variables - replace the example below with your own
     
     private int BREEDING_AGE = 1;
     private double BREEDING_PROBABILITY = 0.02;
     private Random rand = Randomizer.getRandom();
-    //private int age;
-    //private int MAX_AGE;
-    //private int foodLevel;
+    private int age;
+    private int MAX_AGE;
+    private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 25;
+    private int PLANT_FOOD_VALUE = 3;
     private Character gender;
     private int x;
 
     /**
-     * Constructor for objects of class Squid
+     * Constructor for objects of class BabyShark
      */
-    public Squid(Field field, Location location)
+    public BabyShark(Field field, Location location)
     {
         super(field, location);
         age = 0;
-        MAX_AGE = 100;
-        foodLevel = 25;
+        MAX_AGE = 500;
+        foodLevel = 3000;
         gender = genders[rand.nextInt(2)];
     }
 
-    public void act(List<Organism> newShrimp){
+    public void act(List<Organism> newBabyShark){
         
         incrementAge();
         incrementHunger();
         
-        System.out.println("is it day ? : " + Time.isDay());
-        
-        if (isAlive()){//&& Time.isDay()){
+        if (isAlive()/**&& Time.isDay()*/){
             if(isFemale() && mateFound()) {
-                giveBirth(newShrimp);
+                giveBirth(newBabyShark);
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
             Location newLocation = findFood();
@@ -64,7 +62,7 @@ public class Squid extends Herbivores
     
     }
     
-    public void giveBirth(List<Organism> newShrimp){
+    public void giveBirth(List<Organism> newBabyShark){
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
@@ -72,8 +70,8 @@ public class Squid extends Herbivores
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
-            Squid young = new Squid(field, loc);
-            newShrimp.add(young);
+            BabyShark young = new BabyShark(field, loc);
+            newBabyShark.add(young);
         }
         
     }
@@ -89,21 +87,21 @@ public class Squid extends Herbivores
         return births;
     }
     
-    /*private void incrementAge()
+    private void incrementAge()
         {
         age++;
         if(age > MAX_AGE) {
             setDead();
         }
-    }*/
+    }
     
-    /* private void incrementHunger()
+    private void incrementHunger()
     {
         foodLevel--;
         if (foodLevel <= 0){
             setDead();
         }
-    } */
+    }
     
     private boolean canBreed(){
         boolean returnValue;
@@ -130,10 +128,42 @@ public class Squid extends Herbivores
         while(it.hasNext()) {
             Location where = it.next();
             Object organism = field.getObjectAt(where);
-            if(organism instanceof Plant) {
-                Plant plant = (Plant) organism;
-                if(plant.isAlive()) { 
-                    plant.setDead();
+            if(organism instanceof SwordFish) {
+                SwordFish swordFish = (SwordFish) organism;
+                if(swordFish.isAlive()) { 
+                    swordFish.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Mackerel) {
+                Mackerel mackerel = (Mackerel) organism;
+                if(mackerel.isAlive()) { 
+                    mackerel.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Shrimp) {
+                Shrimp shrimp = (Shrimp) organism;
+                if(shrimp.isAlive()) { 
+                    shrimp.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Squid) {
+                Squid squid = (Squid) organism;
+                if(squid.isAlive()) { 
+                    squid.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Turtle) {
+                Turtle turtle = (Turtle) organism;
+                if(turtle.isAlive()) { 
+                    turtle.setDead();
                     foodLevel = PLANT_FOOD_VALUE;
                     return where;
                 }
@@ -150,9 +180,9 @@ public class Squid extends Herbivores
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Squid) {
-                Squid shrimp = (Squid) animal;
-                if(!shrimp.isFemale()) {
+            if(animal instanceof BabyShark) {
+                BabyShark babyShark = (BabyShark) animal;
+                if(!babyShark.isFemale()) {
                     return true;
                 }
             }
@@ -173,12 +203,4 @@ public class Squid extends Herbivores
         }
     }
 
-    public int getMaxAge(){
-        return MAX_AGE;
-    }
-    
-    public int decrementFoodLevel(){
-        foodLevel--;
-        return foodLevel;
-    }
 }

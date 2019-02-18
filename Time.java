@@ -58,11 +58,12 @@ public class Time
     }
     
     public static int updateHours(int step){
-        if (step % 20 == 0){
+        if (step % 1 == 0){
             hours++;
             hours = hours % 24;
+            toggleDay();
         }
-        
+
         return hours;
     }
 }

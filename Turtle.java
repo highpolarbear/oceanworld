@@ -20,7 +20,7 @@ public class Turtle extends Herbivores
     //private int MAX_AGE;
     //private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 3;
+    private int PLANT_FOOD_VALUE = 25;
     private Character gender;
     private int x;
 
@@ -32,18 +32,19 @@ public class Turtle extends Herbivores
         super(field, location);
         age = 0;
         MAX_AGE = 1000;
-        foodLevel = 25;
+        foodLevel = 35;
         gender = genders[rand.nextInt(2)];
     }
 
-    public void act(List<Organism> newShrimp){
+    public void act(List<Organism> newTurtle){
         
         incrementAge();
         incrementHunger();
-        
+              
         if (isAlive()&& Time.isDay()){
+            
             if(isFemale() && mateFound()) {
-                giveBirth(newShrimp);
+                giveBirth(newTurtle);
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
             Location newLocation = findFood();
@@ -62,7 +63,7 @@ public class Turtle extends Herbivores
     
     }
     
-    public void giveBirth(List<Organism> newShrimp){
+    public void giveBirth(List<Organism> newTurtle){
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
@@ -71,7 +72,7 @@ public class Turtle extends Herbivores
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
             Turtle young = new Turtle(field, loc);
-            newShrimp.add(young);
+            newTurtle.add(young);
         }
         
     }
@@ -133,8 +134,8 @@ public class Turtle extends Herbivores
             Location where = it.next();
             Object animal = field.getObjectAt(where);
             if(animal instanceof Turtle) {
-                Turtle shrimp = (Turtle) animal;
-                if(!shrimp.isFemale()) {
+                Turtle turtle = (Turtle) animal;
+                if(!turtle.isFemale()) {
                     return true;
                 }
             }

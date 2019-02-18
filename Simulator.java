@@ -20,17 +20,19 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a fox will be created in any given grid position.
-    private static final double FOX_CREATION_PROBABILITY = 0.02;
-    // The probability that a rabbit will be created in any given grid position.
-    private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
+    private static final double PLANT_CREATION_PROBABILITY = 0.1;
     
     private static final double SHRIMP_CREATION_PROBABILITY = 0.02;
-    
-    private static final double PLANT_CREATION_PROBABILITY = 0.01;
-    
+
     private static final double TURTLE_CREATION_PROBABILITY = 0.01;
-    
+
     private static final double SQUID_CREATION_PROBABILITY = 0.01;
+
+    private static final double MACKEREL_CREATION_PROBABILITY = 0.005;
+
+    private static final double SWORDFISH_CREATION_PROBABILITY = 0.0025;
+
+    private static final double BABYSHARK_CREATION_PROBABILITY = 0.00125;
 
     // List of animals in the field.
     private List<Organism> organisms;
@@ -73,10 +75,13 @@ public class Simulator
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
-        view.setColor(Plant.class, Color.GRAY);
+        view.setColor(Plant.class, Color.GREEN);
         view.setColor(Shrimp.class, Color.YELLOW);
-        view.setColor(Turtle.class, Color.GREEN);
-        view.setColor(Squid.class, Color.BLACK);
+        view.setColor(Squid.class, Color.CYAN);
+        view.setColor(SwordFish.class, Color.MAGENTA);
+        view.setColor(BabyShark.class, Color.PINK);
+        view.setColor(Mackerel.class, Color.ORANGE);
+        view.setColor(Turtle.class, Color.RED);
         
         
         // Setup a valid starting point.
@@ -100,7 +105,7 @@ public class Simulator
         {
             simulate(1);
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             }
         
             catch (InterruptedException e) {
@@ -205,7 +210,6 @@ public class Simulator
                     Location location = new Location(row,col);
                     Plant plant = new Plant(field, location);
                     organisms.add(plant);
-                    
                 }
                 else if (rand.nextDouble() <= TURTLE_CREATION_PROBABILITY){
                     Location location = new Location(row,col);
@@ -216,6 +220,25 @@ public class Simulator
                     Location location = new Location(row,col);
                     Squid squid = new Squid (field, location);
                     organisms.add(squid);
+                }
+                
+                else if (rand.nextDouble() <= MACKEREL_CREATION_PROBABILITY){
+                    Location location = new Location(row,col);
+                    Mackerel mackerel = new Mackerel(field, location);
+                    organisms.add(mackerel);
+                    
+                }
+                else if (rand.nextDouble() <= SWORDFISH_CREATION_PROBABILITY){
+                    Location location = new Location(row,col);
+                    SwordFish swordFish = new SwordFish(field, location);
+                    organisms.add(swordFish);
+                    
+                }
+                else if (rand.nextDouble() <= BABYSHARK_CREATION_PROBABILITY){
+                    Location location = new Location(row,col);
+                    BabyShark babyShark = new BabyShark(field, location);
+                    organisms.add(babyShark);
+                    
                 }
                 // else leave the location empty.
             }

@@ -20,7 +20,7 @@ public class Shrimp extends Herbivores
     //private int MAX_AGE = 100;
     //private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 3;
+    private int PLANT_FOOD_VALUE = 25;
     private Character gender;
     private int x;
 
