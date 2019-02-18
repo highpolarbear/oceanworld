@@ -3,13 +3,13 @@ import java.util.Random;
 import java.util.Iterator;
 
 /**
- * Write a description of class Shrimp here.
+ * Write a description of class Turtle here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
 
-public class Shrimp extends Herbivores
+public class Turtle extends Herbivores
 {
     // instance variables - replace the example below with your own
     
@@ -25,14 +25,14 @@ public class Shrimp extends Herbivores
     private int x;
 
     /**
-     * Constructor for objects of class Shrimp
+     * Constructor for objects of class Turtle
      */
-    public Shrimp(Field field, Location location)
+    public Turtle(Field field, Location location)
     {
         super(field, location);
         age = 0;
-        MAX_AGE = 100;
-        foodLevel = 10;
+        MAX_AGE = 1000;
+        foodLevel = 15;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -70,7 +70,7 @@ public class Shrimp extends Herbivores
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
-            Shrimp young = new Shrimp(field, loc);
+            Turtle young = new Turtle(field, loc);
             newShrimp.add(young);
         }
         
@@ -148,8 +148,8 @@ public class Shrimp extends Herbivores
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Shrimp) {
-                Shrimp shrimp = (Shrimp) animal;
+            if(animal instanceof Turtle) {
+                Turtle shrimp = (Turtle) animal;
                 if(!shrimp.isFemale()) {
                     return true;
                 }

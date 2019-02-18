@@ -32,7 +32,7 @@ public class Plant extends Organism
         //field.place(this, location);
         alive = true;
         age = 0;
-        MAX_AGE = 200;
+        MAX_AGE = 20;
     } 
     
     public int spreadProbability(){
@@ -55,36 +55,35 @@ public class Plant extends Organism
     public void makeNewPlant(List<Organism> newPlants){
         
         Field field = getField();
-        
         spreadRatio = rand.nextInt(2);
         
         for (int i = 0 ; i < spreadRatio; i++){
-            Location location = selectRandomLocation();
-            //int births = spreadProbability();
-        
-            Plant youngPlant = new Plant(field, location);
-            newPlants.add(youngPlant);
+            Location newLocation = getField().freeAdjacentLocation(getLocation());
+            if (newLocation == null){
+                
+                newLocation = getField().freeAdjacentLocation(getLocation());
+            }
+            if(newLocation != null) {
+                Plant youngPlant = new Plant(field, newLocation);
+                newPlants.add(youngPlant);
+            }
+            else {
+                setDead();
+            }      
+            
         }
     }
     
     public void act(List<Organism> newPlant){
         incrementAge();
         
-        if (isAlive() && Time.isDay()){
+        if (isAlive() ){//&& Time.isDay()){
             makeNewPlant(newPlant);
-            Location location = selectRandomLocation();
-            if (getField().getObjectAt(location) == null){
-                
-                setLocation(location);
-            
-            }
-            
-            else {
-                
-                setDead();
-                
-            }
         }
+        else {
+                setDead();
+        }
+        
             
         
     }

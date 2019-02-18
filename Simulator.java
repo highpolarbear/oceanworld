@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.Color;
+import java.util.Date;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
@@ -25,8 +26,11 @@ public class Simulator
     
     private static final double SHRIMP_CREATION_PROBABILITY = 0.02;
     
-    private static final double PLANT_CREATION_PROBABILITY = 0.2;
+    private static final double PLANT_CREATION_PROBABILITY = 0.01;
     
+    private static final double TURTLE_CREATION_PROBABILITY = 0.01;
+    
+    private static final double SQUID_CREATION_PROBABILITY = 0.01;
 
     // List of animals in the field.
     private List<Organism> organisms;
@@ -69,8 +73,10 @@ public class Simulator
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
-        view.setColor(Plant.class, Color.GREEN);
+        view.setColor(Plant.class, Color.GRAY);
         view.setColor(Shrimp.class, Color.YELLOW);
+        view.setColor(Turtle.class, Color.GREEN);
+        view.setColor(Squid.class, Color.BLACK);
         
         
         // Setup a valid starting point.
@@ -85,6 +91,39 @@ public class Simulator
     {
         simulate(4000);
     }
+    
+    
+    /** FOR TESTING PURPOSES -- TO BE REMOVED IN FINAL FILE **/
+    public void runLongSlowestSimulation()
+    {
+        for (int i = 0; i < 5000; i++)
+        {
+            simulate(1);
+            try {
+                Thread.sleep(100);
+            }
+        
+            catch (InterruptedException e) {
+                System.out.println("sim halt");
+            }
+        }
+    }
+    
+    public void runSlowSimulation()
+    {
+        for (int i = 0; i < 5000; i++)
+        {
+            simulate(1);
+            try {
+                Thread.sleep(50);
+            }
+        
+            catch (InterruptedException e) {
+                System.out.println("sim halt");
+            }
+        }
+    }
+    /** END OF TESTING METHODS ---------------------------**/
     
     /**
      * Run the simulation from its current state for the given number of steps.
@@ -130,7 +169,7 @@ public class Simulator
         
         view.showStatus(step, field, hour);
         
-        System.out.println("Hour : " + hour + " , tick : " + step);
+        //System.out.println("Hour : " + hour + " , tick : " + step);
     }
         
     /**
@@ -167,6 +206,16 @@ public class Simulator
                     Plant plant = new Plant(field, location);
                     organisms.add(plant);
                     
+                }
+                else if (rand.nextDouble() <= TURTLE_CREATION_PROBABILITY){
+                    Location location = new Location(row,col);
+                    Turtle turtle = new Turtle (field, location);
+                    organisms.add(turtle);
+                }
+                else if (rand.nextDouble() <= SQUID_CREATION_PROBABILITY){
+                    Location location = new Location(row,col);
+                    Squid squid = new Squid (field, location);
+                    organisms.add(squid);
                 }
                 // else leave the location empty.
             }
