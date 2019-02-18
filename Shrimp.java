@@ -16,9 +16,9 @@ public class Shrimp extends Herbivores
     private int BREEDING_AGE = 1;
     private double BREEDING_PROBABILITY = 0.02;
     private Random rand = Randomizer.getRandom();
-    private int age;
-    private int MAX_AGE;
-    private int foodLevel;
+    //private int age;
+    //private int MAX_AGE = 100;
+    //private int foodLevel;
     private Field field;
     private int PLANT_FOOD_VALUE = 3;
     private Character gender;
@@ -32,7 +32,7 @@ public class Shrimp extends Herbivores
         super(field, location);
         age = 0;
         MAX_AGE = 100;
-        foodLevel = 10;
+        foodLevel = 25;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -41,7 +41,7 @@ public class Shrimp extends Herbivores
         incrementAge();
         incrementHunger();
         
-        if (isAlive()){//&& Time.isDay()){
+        if (isAlive()&& Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newShrimp);
             }
@@ -87,13 +87,13 @@ public class Shrimp extends Herbivores
         return births;
     }
     
-    private void incrementAge()
+    /**private void incrementAge()
         {
         age++;
         if(age > MAX_AGE) {
             setDead();
         }
-    }
+    } 
     
     private void incrementHunger()
     {
@@ -101,6 +101,11 @@ public class Shrimp extends Herbivores
         if (foodLevel <= 0){
             setDead();
         }
+    } */
+    
+    public int decrementFoodLevel(){
+        foodLevel--;
+        return foodLevel;
     }
     
     private boolean canBreed(){
@@ -169,6 +174,10 @@ public class Shrimp extends Herbivores
         else {
             return false;
         }
+    }
+
+    public int getMaxAge(){
+        return MAX_AGE;
     }
 
 }

@@ -16,9 +16,9 @@ public class Turtle extends Herbivores
     private int BREEDING_AGE = 1;
     private double BREEDING_PROBABILITY = 0.02;
     private Random rand = Randomizer.getRandom();
-    private int age;
-    private int MAX_AGE;
-    private int foodLevel;
+    //private int age;
+    //private int MAX_AGE;
+    //private int foodLevel;
     private Field field;
     private int PLANT_FOOD_VALUE = 3;
     private Character gender;
@@ -32,7 +32,7 @@ public class Turtle extends Herbivores
         super(field, location);
         age = 0;
         MAX_AGE = 1000;
-        foodLevel = 15;
+        foodLevel = 25;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -41,7 +41,7 @@ public class Turtle extends Herbivores
         incrementAge();
         incrementHunger();
         
-        if (isAlive()){//&& Time.isDay()){
+        if (isAlive()&& Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newShrimp);
             }
@@ -86,23 +86,7 @@ public class Turtle extends Herbivores
         
         return births;
     }
-    
-    private void incrementAge()
-        {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
-    }
-    
-    private void incrementHunger()
-    {
-        foodLevel--;
-        if (foodLevel <= 0){
-            setDead();
-        }
-    }
-    
+        
     private boolean canBreed(){
         boolean returnValue;
         
@@ -120,7 +104,7 @@ public class Turtle extends Herbivores
         return age;
     }
     
-        private Location findFood()
+    private Location findFood()
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
@@ -170,5 +154,13 @@ public class Turtle extends Herbivores
             return false;
         }
     }
-
+    
+    public int getMaxAge(){
+        return MAX_AGE;
+    }
+    
+    public int decrementFoodLevel(){
+        foodLevel--;
+        return foodLevel;
+    }
 }

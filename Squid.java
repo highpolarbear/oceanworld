@@ -16,9 +16,9 @@ public class Squid extends Herbivores
     private int BREEDING_AGE = 1;
     private double BREEDING_PROBABILITY = 0.02;
     private Random rand = Randomizer.getRandom();
-    private int age;
-    private int MAX_AGE;
-    private int foodLevel;
+    //private int age;
+    //private int MAX_AGE;
+    //private int foodLevel;
     private Field field;
     private int PLANT_FOOD_VALUE = 3;
     private Character gender;
@@ -31,8 +31,8 @@ public class Squid extends Herbivores
     {
         super(field, location);
         age = 0;
-        MAX_AGE = 50;
-        foodLevel = 10;
+        MAX_AGE = 100;
+        foodLevel = 25;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -87,21 +87,21 @@ public class Squid extends Herbivores
         return births;
     }
     
-    private void incrementAge()
+    /*private void incrementAge()
         {
         age++;
         if(age > MAX_AGE) {
             setDead();
         }
-    }
+    }*/
     
-    private void incrementHunger()
+    /* private void incrementHunger()
     {
         foodLevel--;
         if (foodLevel <= 0){
             setDead();
         }
-    }
+    } */
     
     private boolean canBreed(){
         boolean returnValue;
@@ -171,4 +171,12 @@ public class Squid extends Herbivores
         }
     }
 
+    public int getMaxAge(){
+        return MAX_AGE;
+    }
+    
+    public int decrementFoodLevel(){
+        foodLevel--;
+        return foodLevel;
+    }
 }
