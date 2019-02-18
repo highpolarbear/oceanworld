@@ -12,7 +12,7 @@ import java.util.Map;
  * setColor method.
  * 
  * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29
+ * @version 2016.02.29!!
  */
 public class SimulatorView extends JFrame
 {

@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Organism
-comment0.text=\n\ Write\ a\ description\ of\ class\ Organism\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\n\ Write\ a\ description\ of\ class\ Organism\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\!\n
 comment1.params=field\ location
 comment1.target=Organism(Field,\ Location)
 comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Organism\n

@@ -6,7 +6,7 @@ import java.util.Iterator;
  * Write a description of class Squid here.
  *
  * @author (your name)
- * @version (a version number or a date)
+ * @version (a version number or a date)!
  */
 
 public class Squid extends Herbivores
