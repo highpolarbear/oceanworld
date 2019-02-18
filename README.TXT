@@ -11,3 +11,19 @@ How to start:
         + simulateOneStep - for a single step.
         + simulate - and supply a number (say 10) for that many steps.
         + runLongSimulation - for a simulation of 500 steps.
+        + runLongSlowestSimulation - for a slow motion of the simulation
+	+ runSlowSimulation - for a slower simulation (testing purposes)
+
+Tasks completed : 
+ + Gender
+ + Different Types of Animals
+ + Plants
+
+To be worked : 
+ - Survivability
+ - Time (re-implimentation) + stabilisation
+ - Add the rest of the animals
+
+To be implemented : 
+ - Disease
+ - Extra Challenge tasks 
