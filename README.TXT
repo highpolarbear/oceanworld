@@ -26,5 +26,6 @@ To be worked :
  - Add the rest of the animals
 
 To be implemented : 
+ - Weather
  - Disease
  - Extra Challenge tasks 
