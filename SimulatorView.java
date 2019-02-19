@@ -26,7 +26,7 @@ public class SimulatorView extends JFrame
     private final String HOUR_PREFIX = "Hour: ";
     private final String HOUR_SUFFIX = " ";
     private final String POPULATION_PREFIX = "Population: ";
-    private JLabel stepLabel, population, infoLabel, hourLabel;
+    private JLabel stepLabel, population, infoLabel, hourLabel, dayLabel;
     private FieldView fieldView;
     
     // A map for storing colors for participants in the simulation
@@ -48,6 +48,7 @@ public class SimulatorView extends JFrame
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
         hourLabel = new JLabel(HOUR_PREFIX, JLabel.CENTER);
         infoLabel = new JLabel("  ", JLabel.CENTER);
+        dayLabel = new JLabel("NULL", JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
         
         setLocation(100, 50);
@@ -60,6 +61,7 @@ public class SimulatorView extends JFrame
             infoPane.add(stepLabel, BorderLayout.WEST);
             infoPane.add(infoLabel, BorderLayout.CENTER);
             infoPane.add(hourLabel, BorderLayout.EAST);
+            infoPane.add(dayLabel, BorderLayout.CENTER);
         contents.add(infoPane, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
@@ -113,6 +115,14 @@ public class SimulatorView extends JFrame
             
         stepLabel.setText(STEP_PREFIX + step);
         hourLabel.setText(HOUR_PREFIX + hour + HOUR_SUFFIX);
+        
+        if (Time.isDay()){
+            dayLabel.setText("Day Time (sun) ");
+        }
+        else if (!Time.isDay()){
+            dayLabel.setText("Night Time (moon) ");
+        }
+        
         stats.reset();
         
         fieldView.preparePaint();

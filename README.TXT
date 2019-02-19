@@ -19,13 +19,12 @@ Tasks completed :
  + Different Types of Animals
  + Plants
 
-To be worked : 
- - Survivability
- - Time (re-implimentation) + stabilisation
- - Ecosystem stabilisation
- - Add the rest of the animals
+ -- Task List --
+ [ working ] Survivability
+ [ working ] Time (re-implimentation) + stabilisation
+ [ working ] Ecosystem stabilisation
+ [ completed ]  Add the rest of the animals
 
-To be implemented : 
- - Weather
- - Disease
- - Extra Challenge tasks 
+ [ working ] Disease
+ [ inactive ] Weather
+ [ inactive ] Extra Challenge tasks 

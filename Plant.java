@@ -36,7 +36,7 @@ public class Plant extends Organism
     } 
     
     public int spreadProbability(){
-        return rand.nextInt(2);
+        return rand.nextInt(1);
     }
     
     private Location selectRandomLocation(){
@@ -54,23 +54,25 @@ public class Plant extends Organism
     
     public void makeNewPlant(List<Organism> newPlants){
         
-        Field field = getField();
-        spreadRatio = rand.nextInt(2);
+        if (Time.isDay()){
+            Field field = getField();
+            spreadRatio = rand.nextInt(2);
         
-        for (int i = 0 ; i < spreadRatio; i++){
-            Location newLocation = getField().freeAdjacentLocation(getLocation());
-            if (newLocation == null){
+            for (int i = 0 ; i < spreadRatio; i++){
+                Location newLocation = getField().freeAdjacentLocation(getLocation());
+                if (newLocation == null){
                 
-                newLocation = getField().freeAdjacentLocation(getLocation());
-            }
-            if(newLocation != null) {
-                Plant youngPlant = new Plant(field, newLocation);
-                newPlants.add(youngPlant);
-            }
-            else {
-                setDead();
-            }      
+                    newLocation = getField().freeAdjacentLocation(getLocation());
+                }
+                if(newLocation != null) {
+                    Plant youngPlant = new Plant(field, newLocation);
+                    newPlants.add(youngPlant);
+                }
+                else {
+                    setDead();
+                }      
             
+            }
         }
     }
     
