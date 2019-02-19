@@ -20,8 +20,7 @@ public class Mackerel extends Carnivores
     private int MAX_AGE;
     private int foodLevel;
     private Field field;
-    private int SHRIMP_FOOD_VALUE = 3;
-    private int SQUID_FOOD_VALUE = 3;
+    private int MACKEREL_FOOD_VALUE = 10;
     private Character gender;
     private int x;
 
@@ -133,7 +132,7 @@ public class Mackerel extends Carnivores
                 Shrimp shrimp = (Shrimp) organism;
                 if(shrimp.isAlive()) { 
                     shrimp.setDead();
-                    foodLevel = SHRIMP_FOOD_VALUE;
+                    foodLevel = MACKEREL_FOOD_VALUE;
                     return where;
                 }
             }
@@ -141,7 +140,7 @@ public class Mackerel extends Carnivores
                 Squid squid = (Squid) organism;
                 if(squid.isAlive()) { 
                     squid.setDead();
-                    foodLevel = SQUID_FOOD_VALUE;
+                    foodLevel = MACKEREL_FOOD_VALUE;
                     return where;
                 }
             }

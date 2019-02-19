@@ -41,7 +41,7 @@ public class Squid extends Herbivores
         incrementAge();
         incrementHunger();
         
-        if (isAlive()){//&& Time.isDay()){
+        if (isAlive()&& Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newShrimp);
             }

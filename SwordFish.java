@@ -20,7 +20,7 @@ public class SwordFish extends Carnivores
     private int MAX_AGE;
     private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 3;
+    private int PLANT_FOOD_VALUE = 10;
     private Character gender;
     private int x;
 
