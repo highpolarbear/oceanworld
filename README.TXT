@@ -21,7 +21,7 @@ Tasks completed :
 
  -- Task List --
  [ working ] Survivability
- [ working ] Time (re-implimentation) + stabilisation
+ [ completed ] Time (re-implimentation) + stabilisation
  [ working ] Ecosystem stabilisation
  [ completed ]  Add the rest of the animals
 
