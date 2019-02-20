@@ -14,7 +14,7 @@ public abstract class Herbivores extends Organism
     int MAX_AGE;
     int foodLevel;
     
-    public Herbivores(Field field, Location location)
+    public Herbivores(Field field, Location location, Field plantationField)
     {
         super(field, location);
         age = 0;
@@ -35,8 +35,6 @@ public abstract class Herbivores extends Organism
             setDead();
         }
     }
-    
-   
     
     protected void incrementHunger()
     {

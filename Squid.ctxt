@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.target=Squid
 comment0.text=\n\ Write\ a\ description\ of\ class\ Squid\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\!\n
-comment1.params=field\ location
-comment1.target=Squid(Field,\ Location)
+comment1.params=field\ location\ plantationField
+comment1.target=Squid(Field,\ Location,\ Field)
 comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Squid\n
 comment10.params=
 comment10.target=int\ getMaxAge()

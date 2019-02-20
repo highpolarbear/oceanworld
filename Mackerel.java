@@ -41,7 +41,7 @@ public class Mackerel extends Carnivores
         incrementAge();
         incrementHunger();
         
-        if (isAlive()){//&& Time.isDay()){
+        if (isAlive()&& (! Time.isDay())){
             if(isFemale() && mateFound()) {
                 giveBirth(newMackerel);
             }
@@ -66,7 +66,7 @@ public class Mackerel extends Carnivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        int births = 1;
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);

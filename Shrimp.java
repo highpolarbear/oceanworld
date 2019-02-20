@@ -20,18 +20,21 @@ public class Shrimp extends Herbivores
     //private int MAX_AGE = 100;
     //private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 25;
+    private int PLANT_FOOD_VALUE = 100;
     private Character gender;
     private int x;
+    private Field plantationField;
 
     /**
      * Constructor for objects of class Shrimp
      */
-    public Shrimp(Field field, Location location)
+    public Shrimp(Field field, Location location, Field plantationField)
     {
-        super(field, location);
+        super(field, location, plantationField);
+        
+        this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 100;
+        MAX_AGE = 25;
         foodLevel = 25;
         gender = genders[rand.nextInt(2)];
     }
@@ -46,7 +49,7 @@ public class Shrimp extends Herbivores
                 giveBirth(newShrimp);
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
-            Location newLocation = findFood();
+            Location newLocation = findGrass();
             if (newLocation == null){
                 
                 newLocation = getField().freeAdjacentLocation(getLocation());
@@ -66,11 +69,11 @@ public class Shrimp extends Herbivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        int births = 4;//breed();
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
-            Shrimp young = new Shrimp(field, loc);
+            Shrimp young = new Shrimp(field, loc, plantationField);
             newShrimp.add(young);
         }
         
@@ -86,22 +89,6 @@ public class Shrimp extends Herbivores
         
         return births;
     }
-    
-    /**private void incrementAge()
-        {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
-    } 
-    
-    private void incrementHunger()
-    {
-        foodLevel--;
-        if (foodLevel <= 0){
-            setDead();
-        }
-    } */
     
     public int decrementFoodLevel(){
         foodLevel--;
@@ -144,7 +131,28 @@ public class Shrimp extends Herbivores
         }
         return null;
     }
-
+    
+    private Location findGrass()
+    {
+        //Field plantationField = getPlantation();
+        List<Location> adjacent = plantationField.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object organism = plantationField.getObjectAt(where);
+            if(organism instanceof Plant) {
+                Plant plant = (Plant) organism;
+                if(plant.isAlive()) { 
+                    plant.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                    
+                }
+            }
+        }
+        return null;
+    }
+    
     private boolean mateFound()
     {
         Field field = getField();

@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.target=Turtle
 comment0.text=\n\ Write\ a\ description\ of\ class\ Turtle\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\!\n
-comment1.params=field\ location
-comment1.target=Turtle(Field,\ Location)
+comment1.params=field\ location\ plantationField
+comment1.target=Turtle(Field,\ Location,\ Field)
 comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Turtle\n
 comment10.params=
 comment10.target=int\ getMaxAge()

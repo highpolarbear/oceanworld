@@ -1,14 +1,16 @@
 #BlueJ class context
 comment0.target=Shrimp
 comment0.text=\n\ Write\ a\ description\ of\ class\ Shrimp\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\!\n
-comment1.params=field\ location
-comment1.target=Shrimp(Field,\ Location)
+comment1.params=field\ location\ plantationField
+comment1.target=Shrimp(Field,\ Location,\ Field)
 comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Shrimp\n
 comment10.params=
-comment10.target=boolean\ isFemale()
-comment10.text=\n\ Checks\ if\ it\ is\ female\n
+comment10.target=boolean\ mateFound()
 comment11.params=
-comment11.target=int\ getMaxAge()
+comment11.target=boolean\ isFemale()
+comment11.text=\n\ Checks\ if\ it\ is\ female\n
+comment12.params=
+comment12.target=int\ getMaxAge()
 comment2.params=newShrimp
 comment2.target=void\ act(java.util.List)
 comment3.params=newShrimp
@@ -17,7 +19,6 @@ comment4.params=
 comment4.target=int\ breed()
 comment5.params=
 comment5.target=int\ decrementFoodLevel()
-comment5.text=private\ void\ incrementAge()\n\ \ \ \ \ \ \ \ {\n\ \ \ \ \ \ \ \ age++;\n\ \ \ \ \ \ \ \ if(age\ >\ MAX_AGE)\ {\n\ \ \ \ \ \ \ \ \ \ \ \ setDead();\n\ \ \ \ \ \ \ \ }\n\ \ \ \ }\ \n\ \ \ \ \n\ \ \ \ private\ void\ incrementHunger()\n\ \ \ \ {\n\ \ \ \ \ \ \ \ foodLevel--;\n\ \ \ \ \ \ \ \ if\ (foodLevel\ <\=\ 0){\n\ \ \ \ \ \ \ \ \ \ \ \ setDead();\n\ \ \ \ \ \ \ \ }\n}
 comment6.params=
 comment6.target=boolean\ canBreed()
 comment7.params=
@@ -25,5 +26,5 @@ comment7.target=int\ getAge()
 comment8.params=
 comment8.target=Location\ findFood()
 comment9.params=
-comment9.target=boolean\ mateFound()
-numComments=12
+comment9.target=Location\ findGrass()
+numComments=13

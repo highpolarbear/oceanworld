@@ -27,7 +27,7 @@ public class SimulatorView extends JFrame
     private final String HOUR_SUFFIX = " ";
     private final String POPULATION_PREFIX = "Population: ";
     private JLabel stepLabel, population, infoLabel, hourLabel, dayLabel;
-    private FieldView fieldView;
+    private FieldView fieldView, plantationView;
     
     // A map for storing colors for participants in the simulation
     private Map<Class, Color> colors;
@@ -137,11 +137,57 @@ public class SimulatorView extends JFrame
                 else {
                     fieldView.drawMark(col, row, EMPTY_COLOR);
                 }
+                
+                
+                
             }
         }
+        
         stats.countFinished();
 
         population.setText(POPULATION_PREFIX + stats.getPopulationDetails(field));
+        fieldView.repaint();
+    }
+    
+    public void showPlantStatus(int step, Field plantationField, int hour)    
+    {
+        if(!isVisible()) {
+            setVisible(true);
+        }
+            
+        stepLabel.setText(STEP_PREFIX + step);
+        hourLabel.setText(HOUR_PREFIX + hour + HOUR_SUFFIX);
+        
+        if (Time.isDay()){
+            dayLabel.setText("Day Time (sun) ");
+        }
+        else if (!Time.isDay()){
+            dayLabel.setText("Night Time (moon) ");
+        }
+        
+        stats.reset();
+        
+        fieldView.preparePaint();
+
+        for(int row = 0; row < plantationField.getDepth(); row++) {
+            for(int col = 0; col < plantationField.getWidth(); col++) {
+                Object plant = plantationField.getObjectAt(row, col);
+                if(plant != null) {
+                    stats.incrementCount(plant.getClass());
+                    fieldView.drawMark(col, row, getColor(plant.getClass()));
+                }
+                else {
+                    fieldView.drawMark(col, row, EMPTY_COLOR);
+                }
+                
+                
+                
+            }
+        }
+        
+        stats.countFinished();
+
+        population.setText(POPULATION_PREFIX + stats.getPopulationDetails(plantationField));
         fieldView.repaint();
     }
 

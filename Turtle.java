@@ -23,13 +23,15 @@ public class Turtle extends Herbivores
     private int PLANT_FOOD_VALUE = 25;
     private Character gender;
     private int x;
+    private Field plantationField;
 
     /**
      * Constructor for objects of class Turtle
      */
-    public Turtle(Field field, Location location)
+    public Turtle(Field field, Location location, Field plantationField)
     {
-        super(field, location);
+        super(field, location, plantationField);
+        this.plantationField = plantationField;
         age = 0;
         MAX_AGE = 1000;
         foodLevel = 35;
@@ -71,7 +73,7 @@ public class Turtle extends Herbivores
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
-            Turtle young = new Turtle(field, loc);
+            Turtle young = new Turtle(field, loc, plantationField);
             newTurtle.add(young);
         }
         

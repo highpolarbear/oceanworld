@@ -33,6 +33,10 @@ public class Field
         field = new Object[depth][width];
     }
     
+    public Field getThisField(){
+        return this;
+    }
+    
     /**
      * Empty the field.
      */

@@ -20,9 +20,9 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a fox will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.01;
+    private static final double PLANT_CREATION_PROBABILITY = 0.1;
     
-    private static final double SHRIMP_CREATION_PROBABILITY = 0.02;
+    private static final double SHRIMP_CREATION_PROBABILITY = 0.005;
 
     private static final double TURTLE_CREATION_PROBABILITY = 0.01;
 
@@ -40,10 +40,12 @@ public class Simulator
     private List<Plant> plants;
     // The current state of the field.
     private Field field;
+    
+    private Field plantationField;
     // The current step of the simulation.
     private int step;
     // A graphical view of the simulation.
-    private SimulatorView view;
+    private SimulatorView view, plantationView;
     // The current hour in simulation.
     private int hour;
     
@@ -71,17 +73,23 @@ public class Simulator
         
         organisms = new ArrayList<>();
         plants = new ArrayList<>();
+        plantationField = new Field(depth, width);
+        System.out.println(plantationField);
         field = new Field(depth, width);
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
         view.setColor(Plant.class, Color.GREEN);
+        
         view.setColor(Shrimp.class, Color.YELLOW);
         view.setColor(Squid.class, Color.CYAN);
         view.setColor(SwordFish.class, Color.MAGENTA);
         view.setColor(BabyShark.class, Color.PINK);
         view.setColor(Mackerel.class, Color.ORANGE);
         view.setColor(Turtle.class, Color.RED);
+        
+        plantationView = new SimulatorView(depth, width);
+        plantationView.setColor(Plant.class, Color.GREEN);
         
         
         // Setup a valid starting point.
@@ -169,10 +177,21 @@ public class Simulator
             }
         }
         
+        for(Iterator<Plant> it = plants.iterator(); it.hasNext(); ) {
+            Plant plant = it.next();
+            plant.act(newOrganisms);
+            
+            if(! plant.isAlive()) 
+            {
+                it.remove();
+            }
+        }
+        
         // Add the newly born foxes and rabbits to the main lists.
         organisms.addAll(newOrganisms);
-        
+        plants.addAll(newPlants);
         view.showStatus(step, field, hour);
+        plantationView.showStatus(step, plantationField, hour);
         
         //System.out.println("Hour : " + hour + " , tick : " + step);
     }
@@ -185,6 +204,7 @@ public class Simulator
         step = 0;
         hour = 0;
         organisms.clear();
+        plants.clear();
         populate();
         
         // Show the starting state in the view.
@@ -198,27 +218,28 @@ public class Simulator
     {
         Random rand = Randomizer.getRandom();
         field.clear();
+        plantationField.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
                
                 if (rand.nextDouble() <= SHRIMP_CREATION_PROBABILITY){
                     Location location = new Location(row, col);
-                    Shrimp shrimp = new Shrimp (field, location);
+                    Shrimp shrimp = new Shrimp (field, location, plantationField);
                     organisms.add(shrimp);
                 }
                 else if (rand.nextDouble() <= PLANT_CREATION_PROBABILITY){
                     Location location = new Location(row,col);
-                    Plant plant = new Plant(field, location);
+                    Plant plant = new Plant(plantationField, location);
                     organisms.add(plant);
                 }
                 else if (rand.nextDouble() <= TURTLE_CREATION_PROBABILITY){
                     Location location = new Location(row,col);
-                    Turtle turtle = new Turtle (field, location);
+                    Turtle turtle = new Turtle (field, location, plantationField);
                     organisms.add(turtle);
                 }
                 else if (rand.nextDouble() <= SQUID_CREATION_PROBABILITY){
                     Location location = new Location(row,col);
-                    Squid squid = new Squid (field, location);
+                    Squid squid = new Squid (field, location, plantationField);
                     organisms.add(squid);
                 }
                 
