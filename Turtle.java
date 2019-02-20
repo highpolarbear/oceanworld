@@ -22,7 +22,6 @@ public class Turtle extends Herbivores
     private Field field;
     private int PLANT_FOOD_VALUE = 25;
     private Character gender;
-    private int x;
     private Field plantationField;
 
     /**
@@ -33,8 +32,8 @@ public class Turtle extends Herbivores
         super(field, location, plantationField);
         this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 1000;
-        foodLevel = 35;
+        MAX_AGE = 25;
+        foodLevel = 25;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -49,17 +48,23 @@ public class Turtle extends Herbivores
                 giveBirth(newTurtle);
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
-            Location newLocation = findFood();
-            if (newLocation == null){
+            
+            /** weather*/
+            if(!Weather.getWeather().equals("overcast")) {
+                Location newLocation = findGrass();
+        
+                if (newLocation == null){
                 
-                newLocation = getField().freeAdjacentLocation(getLocation());
-            }
-            if(newLocation != null) {
-                setLocation(newLocation);
-            }
-            else {
-                // Overcrowding.
-                setDead();
+                    newLocation = getField().freeAdjacentLocation(getLocation());
+                }
+                if(newLocation != null) {
+                    setLocation(newLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                    System.out.println("turtle overcrowd");
+                }
             }
         }
     
@@ -69,7 +74,9 @@ public class Turtle extends Herbivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        Random rand = new Random();
+        int births = rand.nextInt(2);
+        
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
@@ -126,7 +133,28 @@ public class Turtle extends Herbivores
         }
         return null;
     }
-
+    
+    private Location findGrass()
+    {
+        //Field plantationField = getPlantation();
+        List<Location> adjacent = plantationField.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object organism = plantationField.getObjectAt(where);
+            if(organism instanceof Plant) {
+                Plant plant = (Plant) organism;
+                if(plant.isAlive() && plant.isMature()) { 
+                    plant.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                    
+                }
+            }
+        }
+        return null;
+    }
+    
     private boolean mateFound()
     {
         Field field = getField();

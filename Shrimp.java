@@ -20,7 +20,7 @@ public class Shrimp extends Herbivores
     //private int MAX_AGE = 100;
     //private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 100;
+    private int PLANT_FOOD_VALUE = 50;
     private Character gender;
     private int x;
     private Field plantationField;
@@ -34,8 +34,8 @@ public class Shrimp extends Herbivores
         
         this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 25;
-        foodLevel = 25;
+        MAX_AGE = 50;
+        foodLevel = 50;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -49,17 +49,23 @@ public class Shrimp extends Herbivores
                 giveBirth(newShrimp);
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
-            Location newLocation = findGrass();
-            if (newLocation == null){
+            
+            /** weather*/
+            if(!Weather.getWeather().equals("overcast")) {
+                Location newLocation = findGrass();
+        
+                if (newLocation == null){
                 
-                newLocation = getField().freeAdjacentLocation(getLocation());
-            }
-            if(newLocation != null) {
-                setLocation(newLocation);
-            }
-            else {
-                // Overcrowding.
-                setDead();
+                    newLocation = getField().freeAdjacentLocation(getLocation());
+                }
+                if(newLocation != null) {
+                    setLocation(newLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                    System.out.println("shrimp overcrowd");
+                }
             }
         }
     
@@ -69,7 +75,9 @@ public class Shrimp extends Herbivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = 4;//breed();
+        //int births = 4;//breed();
+        Random rand = new Random();
+        int births = rand.nextInt(2);
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
@@ -142,7 +150,7 @@ public class Shrimp extends Herbivores
             Object organism = plantationField.getObjectAt(where);
             if(organism instanceof Plant) {
                 Plant plant = (Plant) organism;
-                if(plant.isAlive()) { 
+                if(plant.isAlive() && plant.isMature()) { 
                     plant.setDead();
                     foodLevel = PLANT_FOOD_VALUE;
                     return where;

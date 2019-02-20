@@ -20,7 +20,7 @@ public class Mackerel extends Carnivores
     private int MAX_AGE;
     private int foodLevel;
     private Field field;
-    private int MACKEREL_FOOD_VALUE = 10;
+    private int MACKEREL_FOOD_VALUE = 50;
     private Character gender;
     private int x;
 
@@ -31,8 +31,8 @@ public class Mackerel extends Carnivores
     {
         super(field, location);
         age = 0;
-        MAX_AGE = 200;
-        foodLevel = 3000;
+        MAX_AGE = 50;
+        foodLevel = 50;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -40,10 +40,12 @@ public class Mackerel extends Carnivores
         
         incrementAge();
         incrementHunger();
+        updateBP(); /** weather*/
         
-        if (isAlive()&& (! Time.isDay())){
+        if (isAlive()&&  Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newMackerel);
+                System.out.println("m gave birth");
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
             Location newLocation = findFood();
@@ -57,6 +59,7 @@ public class Mackerel extends Carnivores
             else {
                 // Overcrowding.
                 setDead();
+                System.out.println("mackerel overcrowd");
             }
         }
     
@@ -66,7 +69,10 @@ public class Mackerel extends Carnivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = 1;
+        
+        
+        Random rand = new Random();
+        int births = rand.nextInt(2);
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
@@ -92,6 +98,7 @@ public class Mackerel extends Carnivores
         age++;
         if(age > MAX_AGE) {
             setDead();
+            System.out.println("m age");
         }
     }
     
@@ -100,6 +107,7 @@ public class Mackerel extends Carnivores
         foodLevel--;
         if (foodLevel <= 0){
             setDead();
+            System.out.println("m hunger");
         }
     }
     
@@ -176,6 +184,20 @@ public class Mackerel extends Carnivores
         }
         else {
             return false;
+        }
+    }
+    
+    /** weather*/
+    private void updateBP()
+    {
+        if(Weather.getTemperature() > 25) {
+            BREEDING_PROBABILITY = 0;
+        }
+        else if(Weather.getTemperature() > 20) {
+            BREEDING_PROBABILITY = 0.005;
+        }
+        else if(Weather.getTemperature() > 10) {
+            BREEDING_PROBABILITY = 0.01;
         }
     }
 

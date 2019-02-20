@@ -23,6 +23,11 @@ public class Plant extends Organism
     
     private int MAX_AGE;
     
+    private boolean mature;
+    
+    private static double BREEDING_PROBABILITY = 0.15;
+    private static final int MAX_LITTER_SIZE = 6;
+    
     /**
      * Constructor for objects of class SeaWeed
      */
@@ -33,7 +38,8 @@ public class Plant extends Organism
         //this.field = field;
         alive = true;
         age = 0;
-        MAX_AGE = 20;
+        MAX_AGE = 140;
+        mature = false;
     } 
     
     public int spreadProbability(){
@@ -63,8 +69,17 @@ public class Plant extends Organism
         if (! Time.isDay() || Time.isDay()){
             Field field = getField();
             spreadRatio = 1; //rand.nextInt(2);
+            
+            /** changes*/
+            List<Location> free = field.getFreeAdjacentLocations(getLocation());
+            int births = breed();
+            for(int b = 0; b < births && free.size() > 0; b++) {
+                Location loc = free.remove(0);
+                Plant young = new Plant(field, loc);
+                newPlants.add(young);
+            }
         
-            for (int i = 0 ; i < spreadRatio; i++){
+            /*for (int i = 0 ; i < spreadRatio; i++){
                 Location newLocation = getField().freeAdjacentLocation(getLocation());
                 if (newLocation == null){
                 
@@ -78,26 +93,39 @@ public class Plant extends Organism
                     setDead();
                 }      
             
-            }
+            }*/
         }
         
-        /*
-        for (int i = 0 ; i < spreadRatio; i++){
-            Field field = getField();
-            Location newLocation = selectRandomLocation();
-            if(newLocation != null && field.getObjectAt(newLocation) == null) {
-                Plant youngPlant = new Plant(field, newLocation);
-                newPlants.add(youngPlant);
-            }
-            else {
-                setDead();
-            }      
+        if(Weather.getWeather().equals("sunny")) {
+            for (int i = 0 ; i < spreadRatio; i++){
+                Field field = getField();
+                Location newLocation = selectRandomLocation();
+                if(newLocation != null && field.getObjectAt(newLocation) == null) {
+                    Plant youngPlant = new Plant(field, newLocation);
+                    newPlants.add(youngPlant);
+                }
+                else {
+                    setDead();
+                }      
         
-        }*/
+            }
+        }
     }
+    
+    private int breed()
+    {
+        int births = 0;
+        if(rand.nextDouble() <= BREEDING_PROBABILITY) {
+            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
+        }
+        return births;
+    }
+    /** end of changes*/
     
     public void act(List<Organism> newPlant){
         incrementAge();
+        updateBP();
+        setMature();
         
         if (isAlive() ){//&& Time.isDay()){
             makeNewPlant(newPlant);
@@ -119,9 +147,33 @@ public class Plant extends Organism
         age++;
         if(age > MAX_AGE) {
             setDead();
+            System.out.println("plant age");
         }
     }
     
+    /** weather*/
+    private void updateBP()
+    {
+        if(Weather.getWeather().equals("clear")) {
+            BREEDING_PROBABILITY = 0.13;
+        }
+        if(Weather.getWeather().equals("cloudy")) {
+            BREEDING_PROBABILITY = 0.09;
+        }
+        if(Weather.getWeather().equals("overcast")) {
+            BREEDING_PROBABILITY = 0;
+        }
+    }
+    
+    private void setMature(){
+        if (age > 0){
+            mature = true;
+        }
+    }
+    
+    public boolean isMature(){
+        return mature;
+    }
     /**
     protected void setDead()
     {

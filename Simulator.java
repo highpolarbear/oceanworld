@@ -20,19 +20,19 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a fox will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.1;
+    private static final double PLANT_CREATION_PROBABILITY = 0.01; //0.15; 
     
-    private static final double SHRIMP_CREATION_PROBABILITY = 0.005;
+    private static final double SHRIMP_CREATION_PROBABILITY = 0.01; //0.005;
 
-    private static final double TURTLE_CREATION_PROBABILITY = 0.01;
+    private static final double TURTLE_CREATION_PROBABILITY = 0.01; //0.01;
 
-    private static final double SQUID_CREATION_PROBABILITY = 0.01;
+    private static final double SQUID_CREATION_PROBABILITY = 0.01; //0.01;
 
-    private static final double MACKEREL_CREATION_PROBABILITY = 0.005;
+    private static final double MACKEREL_CREATION_PROBABILITY = 0.01; //0.005;
 
-    private static final double SWORDFISH_CREATION_PROBABILITY = 0.0025;
+    private static final double SWORDFISH_CREATION_PROBABILITY = 0.01; //0.0025;
 
-    private static final double BABYSHARK_CREATION_PROBABILITY = 0.00125;
+    private static final double BABYSHARK_CREATION_PROBABILITY = 0.001; // 0.00125;
 
     // List of animals in the field.
     private List<Organism> organisms;
@@ -162,7 +162,7 @@ public class Simulator
         Time.updateHours(step);
         hour = Time.getHours();
         
-        Weather.updateWeather(hour);
+        Weather.updateWeather(hour); /** weather*/
 
         // Provide space for newborn animals.
         List<Organism> newOrganisms = new ArrayList<>();
@@ -179,7 +179,7 @@ public class Simulator
             }
         }
         
-        for(Iterator<Plant> it = plants.iterator(); it.hasNext(); ) {
+        /*for(Iterator<Plant> it = plants.iterator(); it.hasNext(); ) {
             Plant plant = it.next();
             plant.act(newOrganisms);
             
@@ -187,7 +187,7 @@ public class Simulator
             {
                 it.remove();
             }
-        }
+        }*/
         
         // Add the newly born foxes and rabbits to the main lists.
         organisms.addAll(newOrganisms);
@@ -211,6 +211,7 @@ public class Simulator
         
         // Show the starting state in the view.
         view.showStatus(step, field, hour);
+        plantationView.showStatus(step, plantationField, hour);
     }
     
     /**

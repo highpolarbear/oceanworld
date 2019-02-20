@@ -117,10 +117,12 @@ public class SimulatorView extends JFrame
         hourLabel.setText(HOUR_PREFIX + hour + HOUR_SUFFIX);
         
         if (Time.isDay()){
-            dayLabel.setText("Day Time (sun) ");
+            dayLabel.setText("Day (" + Weather.getWeather() + "," + 
+            Weather.getTemperature() + ")" );
         }
         else if (!Time.isDay()){
-            dayLabel.setText("Night Time (moon) ");
+            dayLabel.setText("Night (" + Weather.getWeather() + "," + 
+            Weather.getTemperature() + ")");
         }
         
         stats.reset();
@@ -159,10 +161,12 @@ public class SimulatorView extends JFrame
         hourLabel.setText(HOUR_PREFIX + hour + HOUR_SUFFIX);
         
         if (Time.isDay()){
-            dayLabel.setText("Day Time (sun) ");
+            dayLabel.setText("Day (" + Weather.getWeather() + "," + 
+            Weather.getTemperature() + ")");
         }
         else if (!Time.isDay()){
-            dayLabel.setText("Night Time (moon) ");
+            dayLabel.setText("Night (" + Weather.getWeather() + "," + 
+            Weather.getTemperature() + ")");
         }
         
         stats.reset();

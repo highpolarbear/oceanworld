@@ -20,7 +20,7 @@ public class SwordFish extends Carnivores
     private int MAX_AGE;
     private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 10;
+    private int PLANT_FOOD_VALUE = 50;
     private Character gender;
     private int x;
 
@@ -31,8 +31,8 @@ public class SwordFish extends Carnivores
     {
         super(field, location);
         age = 0;
-        MAX_AGE = 200;
-        foodLevel = 3000;
+        MAX_AGE = 50;
+        foodLevel = 50;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -41,7 +41,7 @@ public class SwordFish extends Carnivores
         incrementAge();
         incrementHunger();
         
-        if (isAlive()){//&& Time.isDay()){
+        if (isAlive() && Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newSwordFish);
             }
@@ -66,7 +66,8 @@ public class SwordFish extends Carnivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        Random rand = new Random();
+        int births = rand.nextInt(2);
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
