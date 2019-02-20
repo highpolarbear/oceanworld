@@ -161,6 +161,8 @@ public class Simulator
         step++;
         Time.updateHours(step);
         hour = Time.getHours();
+        
+        Weather.updateWeather(hour);
 
         // Provide space for newborn animals.
         List<Organism> newOrganisms = new ArrayList<>();
