@@ -2,6 +2,7 @@ import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.HashMap;
 import java.awt.Color;
 import java.util.Date;
 
@@ -20,22 +21,26 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a fox will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.1;
+    private static final double PLANT_CREATION_PROBABILITY = 0.01; //0.15; 
     
-    private static final double SHRIMP_CREATION_PROBABILITY = 0.005;
+    private static final double SHRIMP_CREATION_PROBABILITY = 0.01; //0.005;
 
-    private static final double TURTLE_CREATION_PROBABILITY = 0.01;
+    private static final double TURTLE_CREATION_PROBABILITY = 0.007; //0.01;
 
-    private static final double SQUID_CREATION_PROBABILITY = 0.01;
+    private static final double SQUID_CREATION_PROBABILITY = 0.01; //0.01;
 
-    private static final double MACKEREL_CREATION_PROBABILITY = 0.005;
+    private static final double MACKEREL_CREATION_PROBABILITY = 0.01; //0.005;
 
-    private static final double SWORDFISH_CREATION_PROBABILITY = 0.0025;
+    private static final double SWORDFISH_CREATION_PROBABILITY = 0.005; //0.0025;
 
-    private static final double BABYSHARK_CREATION_PROBABILITY = 0.00125;
+    private static final double BABYSHARK_CREATION_PROBABILITY = 0.001; // 0.00125;
 
     // List of animals in the field.
     private List<Organism> organisms;
+    
+    private HashMap stats;
+    
+    private List<Egg> eggs;
     
     private List<Plant> plants;
     // The current state of the field.
@@ -48,6 +53,8 @@ public class Simulator
     private SimulatorView view, plantationView;
     // The current hour in simulation.
     private int hour;
+    //The current season in simulation.
+    private String season;
     
     /**
      * Construct a simulation field with default size.
@@ -73,14 +80,14 @@ public class Simulator
         
         organisms = new ArrayList<>();
         plants = new ArrayList<>();
+        eggs = new ArrayList<>();
         plantationField = new Field(depth, width);
-        System.out.println(plantationField);
+        
         field = new Field(depth, width);
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
         view.setColor(Plant.class, Color.GREEN);
-        
         view.setColor(Shrimp.class, Color.YELLOW);
         view.setColor(Squid.class, Color.CYAN);
         view.setColor(SwordFish.class, Color.MAGENTA);
@@ -90,6 +97,7 @@ public class Simulator
         
         plantationView = new SimulatorView(depth, width);
         plantationView.setColor(Plant.class, Color.GREEN);
+        plantationView.setColor(Egg.class, Color.GRAY);
         
         
         // Setup a valid starting point.
@@ -150,6 +158,7 @@ public class Simulator
             // delay(60);   // uncomment this to run more slowly
         }
     }
+
     
     /**
      * Run the simulation from its current state for a single step.
@@ -161,43 +170,35 @@ public class Simulator
         step++;
         Time.updateHours(step);
         hour = Time.getHours();
+        Time.updateSeason(step);
+        season = Time.getCurrentSeason();
         
-        Weather.updateWeather(hour);
+        Weather.updateWeather(hour); 
 
         // Provide space for newborn animals.
         List<Organism> newOrganisms = new ArrayList<>();
-        List<Plant> newPlants = new ArrayList<>();
 
         // Let all rabbits act.
         for(Iterator<Organism> it = organisms.iterator(); it.hasNext(); ) {
             Organism organism = it.next();
             organism.act(newOrganisms);
-            
+
             if(! organism.isAlive()) 
             {
                 it.remove();
             }
         }
-        
-        for(Iterator<Plant> it = plants.iterator(); it.hasNext(); ) {
-            Plant plant = it.next();
-            plant.act(newOrganisms);
-            
-            if(! plant.isAlive()) 
-            {
-                it.remove();
-            }
-        }
-        
+
         // Add the newly born foxes and rabbits to the main lists.
         organisms.addAll(newOrganisms);
-        plants.addAll(newPlants);
-        view.showStatus(step, field, hour);
-        plantationView.showStatus(step, plantationField, hour);
+
+        view.showStatus(step, field, hour, season);
+        plantationView.showStatus(step, plantationField, hour, season);
         
         //System.out.println("Hour : " + hour + " , tick : " + step);
     }
-        
+
+    
     /**
      * Reset the simulation to a starting position.
      */
@@ -209,8 +210,11 @@ public class Simulator
         plants.clear();
         populate();
         
+        Time.setRandomSeason();
+        
         // Show the starting state in the view.
-        view.showStatus(step, field, hour);
+        view.showStatus(step, field, hour, season);
+        plantationView.showStatus(step, plantationField, hour, season);
     }
     
     /**
@@ -247,19 +251,19 @@ public class Simulator
                 
                 else if (rand.nextDouble() <= MACKEREL_CREATION_PROBABILITY){
                     Location location = new Location(row,col);
-                    Mackerel mackerel = new Mackerel(field, location);
+                    Mackerel mackerel = new Mackerel(field, location, plantationField);
                     organisms.add(mackerel);
                     
                 }
                 else if (rand.nextDouble() <= SWORDFISH_CREATION_PROBABILITY){
                     Location location = new Location(row,col);
-                    SwordFish swordFish = new SwordFish(field, location);
+                    SwordFish swordFish = new SwordFish(field, location, plantationField);
                     organisms.add(swordFish);
                     
                 }
                 else if (rand.nextDouble() <= BABYSHARK_CREATION_PROBABILITY){
                     Location location = new Location(row,col);
-                    BabyShark babyShark = new BabyShark(field, location);
+                    BabyShark babyShark = new BabyShark(field, location, plantationField);
                     organisms.add(babyShark);
                     
                 }

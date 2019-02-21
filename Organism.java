@@ -49,9 +49,19 @@ public abstract class Organism
      * Indicate that the animal is no longer alive.
      * It is removed from the field.
      */
-    protected void setDead()
+    protected void setDead(Field nextField)
     {
         alive = false;
+        if(location != null) {
+            nextField.clear(location);
+            location = null;
+            nextField = null;
+        }
+    }
+    
+    protected void setDead()
+    {
+         alive = false;
         if(location != null) {
             field.clear(location);
             location = null;
@@ -72,13 +82,17 @@ public abstract class Organism
      * Place the animal at the new location in the given field.
      * @param newLocation The animal's new location.
      */
-    protected void setLocation(Location newLocation)
+    protected void setLocation(Location newLocation, Field nextfield)
     {
         if(location != null) {
-            field.clear(location);
+            nextfield.clear(location);
         }
         location = newLocation;
-        field.place(this, newLocation);
+        nextfield.place(this, newLocation);
+    }
+    
+    protected void setLocation(Location newLocation){
+        setLocation(newLocation, field);
     }
     
     /**

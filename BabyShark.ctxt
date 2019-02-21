@@ -1,14 +1,18 @@
 #BlueJ class context
 comment0.target=BabyShark
 comment0.text=\n\ Write\ a\ description\ of\ class\ BabyShark\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
-comment1.params=field\ location
-comment1.target=BabyShark(Field,\ Location)
+comment1.params=field\ location\ plantationField
+comment1.target=BabyShark(Field,\ Location,\ Field)
 comment1.text=\n\ Constructor\ for\ objects\ of\ class\ BabyShark\n
 comment10.params=
 comment10.target=boolean\ mateFound()
 comment11.params=
 comment11.target=boolean\ isFemale()
 comment11.text=\n\ Checks\ if\ it\ is\ female\n
+comment12.params=
+comment12.target=int\ decrementFoodLevel()
+comment13.params=
+comment13.target=int\ getMaxAge()
 comment2.params=newBabyShark
 comment2.target=void\ act(java.util.List)
 comment3.params=newBabyShark
@@ -25,4 +29,4 @@ comment8.params=
 comment8.target=int\ getAge()
 comment9.params=
 comment9.target=Location\ findFood()
-numComments=12
+numComments=14

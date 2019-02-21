@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Egg
+comment1.params=field\ location\ fishField\ organism
+comment1.target=Egg(Field,\ Location,\ Field,\ Organism)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Egg\n
+comment2.params=newEgg
+comment2.target=void\ act(java.util.List)
+comment3.params=location\ field
+comment3.target=Organism\ hatch(Location,\ Field)
+comment4.params=
+comment4.target=int\ getAge()
+comment5.params=
+comment5.target=boolean\ checkMaturity()
+numComments=6

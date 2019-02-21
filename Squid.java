@@ -9,7 +9,7 @@ import java.util.Iterator;
  * @version (a version number or a date)!
  */
 
-public class Squid extends Herbivores
+public class Squid extends Fish
 {
     // instance variables - replace the example below with your own
     
@@ -20,7 +20,7 @@ public class Squid extends Herbivores
     //private int MAX_AGE;
     //private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 25;
+    private int PLANT_FOOD_VALUE = 50;
     private Character gender;
     private int x;
     private Field plantationField;
@@ -33,8 +33,8 @@ public class Squid extends Herbivores
         super(field, location, plantationField);
         this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 100;
-        foodLevel = 25;
+        MAX_AGE = 50;
+        foodLevel = 50;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -43,12 +43,21 @@ public class Squid extends Herbivores
         incrementAge();
         incrementHunger();
         
+        Random rand = new Random();
+        int choice = rand.nextInt(2);
+        
         if (isAlive()&& Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newShrimp);
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
-            Location newLocation = findFood();
+            Location newLocation;
+            if (choice == 0){
+                newLocation = findGrass();
+            }
+            else {
+                newLocation = findFood();
+            }
             if (newLocation == null){
                 
                 newLocation = getField().freeAdjacentLocation(getLocation());
@@ -64,17 +73,30 @@ public class Squid extends Herbivores
     
     }
     
-    public void giveBirth(List<Organism> newShrimp){
+    public void giveBirth(List<Organism> newSquid){
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        //int births = breed();
+        Random rand = new Random();
+        int births = rand.nextInt(2);
+        
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
             Squid young = new Squid(field, loc, plantationField);
-            newShrimp.add(young);
+
+            newSquid.add(young);
         }
+        
+        int probability = rand.nextInt(101);
+        
+        if (probability > 60 && free.size() > 0){
+            Location loc = free.remove(0);
+            Egg squidEgg = new Egg(plantationField, loc, field, this);
+            newSquid.add(squidEgg);
+        }
+        
         
     }
     
@@ -130,10 +152,10 @@ public class Squid extends Herbivores
         while(it.hasNext()) {
             Location where = it.next();
             Object organism = field.getObjectAt(where);
-            if(organism instanceof Plant) {
-                Plant plant = (Plant) organism;
-                if(plant.isAlive()) { 
-                    plant.setDead();
+            if(organism instanceof Shrimp) {
+                Shrimp shrimp = (Shrimp) organism;
+                if(shrimp.isAlive()) { 
+                    shrimp.setDead();
                     foodLevel = PLANT_FOOD_VALUE;
                     return where;
                 }
@@ -141,7 +163,26 @@ public class Squid extends Herbivores
         }
         return null;
     }
-
+    private Location findGrass()
+    {
+        //Field plantationField = getPlantation();
+        List<Location> adjacent = plantationField.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object organism = plantationField.getObjectAt(where);
+            if(organism instanceof Plant) {
+                Plant plant = (Plant) organism;
+                if(plant.isAlive() && plant.isMature()) { 
+                    plant.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                    
+                }
+            }
+        }
+        return null;
+    }
     private boolean mateFound()
     {
         Field field = getField();

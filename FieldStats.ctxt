@@ -22,4 +22,6 @@ comment6.text=\n\ Determine\ whether\ the\ simulation\ is\ still\ viable.\n\ I.e
 comment7.params=field
 comment7.target=void\ generateCounts(Field)
 comment7.text=\n\ Generate\ counts\ of\ the\ number\ of\ foxes\ and\ rabbits.\n\ These\ are\ not\ kept\ up\ to\ date\ as\ foxes\ and\ rabbits\n\ are\ placed\ in\ the\ field,\ but\ only\ when\ a\ request\n\ is\ made\ for\ the\ information.\n\ @param\ field\ The\ field\ to\ generate\ the\ stats\ for.\n
-numComments=8
+comment8.params=
+comment8.target=java.util.HashMap\ getStats()
+numComments=9

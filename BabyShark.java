@@ -9,7 +9,7 @@ import java.util.Iterator;
  * @version (a version number or a date)
  */
 
-public class BabyShark extends Carnivores
+public class BabyShark extends Fish
 {
     // instance variables - replace the example below with your own
     
@@ -20,19 +20,21 @@ public class BabyShark extends Carnivores
     private int MAX_AGE;
     private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 10;
+    private Field plantationField;
+    private int PLANT_FOOD_VALUE = 50;
     private Character gender;
     private int x;
 
     /**
      * Constructor for objects of class BabyShark
      */
-    public BabyShark(Field field, Location location)
+    public BabyShark(Field field, Location location, Field plantationField)
     {
-        super(field, location);
+        super(field, location, plantationField);
+        this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 500;
-        foodLevel = 3000;
+        MAX_AGE = 50;
+        foodLevel = 70;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -41,7 +43,7 @@ public class BabyShark extends Carnivores
         incrementAge();
         incrementHunger();
         
-        if (isAlive()/**&& Time.isDay()*/){
+        if (isAlive() && Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newBabyShark);
             }
@@ -66,12 +68,24 @@ public class BabyShark extends Carnivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        Random rand = new Random();
+        int births = rand.nextInt(2);
+        
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
-            BabyShark young = new BabyShark(field, loc);
+            BabyShark young = new BabyShark(field, loc, plantationField);
+
             newBabyShark.add(young);
+        }
+        
+                
+        int probability = rand.nextInt(101);
+        
+        if (probability > 40 && free.size() > 0){
+            Location loc = free.remove(0);
+            Egg sharkEgg = new Egg(plantationField , loc, field, this);
+            newBabyShark.add(sharkEgg);
         }
         
     }
@@ -87,7 +101,7 @@ public class BabyShark extends Carnivores
         return births;
     }
     
-    private void incrementAge()
+    public void incrementAge()
         {
         age++;
         if(age > MAX_AGE) {
@@ -95,7 +109,7 @@ public class BabyShark extends Carnivores
         }
     }
     
-    private void incrementHunger()
+    public void incrementHunger()
     {
         foodLevel--;
         if (foodLevel <= 0){
@@ -202,5 +216,13 @@ public class BabyShark extends Carnivores
             return false;
         }
     }
-
+    
+    public int decrementFoodLevel(){
+        foodLevel--;
+        return foodLevel;
+    }
+    
+        public int getMaxAge(){
+        return MAX_AGE;
+    }
 }

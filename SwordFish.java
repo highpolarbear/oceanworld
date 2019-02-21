@@ -9,7 +9,7 @@ import java.util.Iterator;
  * @version (a version number or a date)
  */
 
-public class SwordFish extends Carnivores
+public class SwordFish extends Fish
 {
     // instance variables - replace the example below with your own
     
@@ -20,19 +20,21 @@ public class SwordFish extends Carnivores
     private int MAX_AGE;
     private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 10;
+    private Field plantationField;
+    private int PLANT_FOOD_VALUE = 50;
     private Character gender;
     private int x;
 
     /**
      * Constructor for objects of class SwordFish
      */
-    public SwordFish(Field field, Location location)
+    public SwordFish(Field field, Location location, Field plantationField)
     {
-        super(field, location);
+        super(field, location, plantationField);
+        this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 200;
-        foodLevel = 3000;
+        MAX_AGE = 30;
+        foodLevel = 50;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -41,7 +43,7 @@ public class SwordFish extends Carnivores
         incrementAge();
         incrementHunger();
         
-        if (isAlive()){//&& Time.isDay()){
+        if (isAlive() && Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newSwordFish);
             }
@@ -66,14 +68,22 @@ public class SwordFish extends Carnivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        Random rand = new Random();
+        int births = rand.nextInt(2);
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
-            SwordFish young = new SwordFish(field, loc);
+            SwordFish young = new SwordFish(field, loc, plantationField);
             newSwordFish.add(young);
         }
         
+        int probability = rand.nextInt(101);
+        
+        if (probability > 60 && free.size() > 0){
+            Location loc = free.remove(0);
+            Egg sFishEgg = new Egg(plantationField, loc, field, this);
+            newSwordFish.add(sFishEgg);
+        }
     }
     
     private int breed()
@@ -87,7 +97,7 @@ public class SwordFish extends Carnivores
         return births;
     }
     
-    private void incrementAge()
+    public void incrementAge()
         {
         age++;
         if(age > MAX_AGE) {
@@ -95,7 +105,7 @@ public class SwordFish extends Carnivores
         }
     }
     
-    private void incrementHunger()
+    public void incrementHunger()
     {
         foodLevel--;
         if (foodLevel <= 0){
@@ -186,5 +196,13 @@ public class SwordFish extends Carnivores
             return false;
         }
     }
-
+    
+    public int decrementFoodLevel(){
+        foodLevel--;
+        return foodLevel;
+    }
+    
+        public int getMaxAge(){
+        return MAX_AGE;
+    }
 }

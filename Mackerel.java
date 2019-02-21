@@ -9,7 +9,7 @@ import java.util.Iterator;
  * @version (a version number or a date)
  */
 
-public class Mackerel extends Carnivores
+public class Mackerel extends Fish
 {
     // instance variables - replace the example below with your own
     
@@ -20,19 +20,21 @@ public class Mackerel extends Carnivores
     private int MAX_AGE;
     private int foodLevel;
     private Field field;
-    private int MACKEREL_FOOD_VALUE = 10;
+    private Field plantationField;
+    private int MACKEREL_FOOD_VALUE = 50;
     private Character gender;
     private int x;
 
     /**
      * Constructor for objects of class Mackerel
      */
-    public Mackerel(Field field, Location location)
+    public Mackerel(Field field, Location location, Field plantationField)
     {
-        super(field, location);
+        super(field, location, plantationField);
+        this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 200;
-        foodLevel = 3000;
+        MAX_AGE = 50;
+        foodLevel = 50;
         gender = genders[rand.nextInt(2)];
     }
 
@@ -40,8 +42,9 @@ public class Mackerel extends Carnivores
         
         incrementAge();
         incrementHunger();
+        updateBP(); /** weather*/
         
-        if (isAlive()&& (! Time.isDay())){
+        if (isAlive()&&  Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newMackerel);
             }
@@ -66,14 +69,25 @@ public class Mackerel extends Carnivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = 1;
+        
+        
+        Random rand = new Random();
+        int births = rand.nextInt(2);
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
-            Mackerel young = new Mackerel(field, loc);
+            Mackerel young = new Mackerel(field, loc, plantationField);
+
             newMackerel.add(young);
         }
         
+        int probability = rand.nextInt(101);
+        
+        if (probability > 60 && free.size() > 0){
+            Location loc = free.remove(0);
+            Egg mackerelEgg = new Egg(plantationField, loc, field, this);
+            newMackerel.add(mackerelEgg);
+        }
     }
     
     private int breed()
@@ -87,7 +101,7 @@ public class Mackerel extends Carnivores
         return births;
     }
     
-    private void incrementAge()
+    public void incrementAge()
         {
         age++;
         if(age > MAX_AGE) {
@@ -95,7 +109,7 @@ public class Mackerel extends Carnivores
         }
     }
     
-    private void incrementHunger()
+    public void incrementHunger()
     {
         foodLevel--;
         if (foodLevel <= 0){
@@ -103,7 +117,7 @@ public class Mackerel extends Carnivores
         }
     }
     
-    private boolean canBreed(){
+    public boolean canBreed(){
         boolean returnValue;
         
         if (age >= BREEDING_AGE){
@@ -178,5 +192,27 @@ public class Mackerel extends Carnivores
             return false;
         }
     }
-
+    
+    /** weather*/
+    private void updateBP()
+    {
+        if(Weather.getTemperature() > 25) {
+            BREEDING_PROBABILITY = 0;
+        }
+        else if(Weather.getTemperature() > 20) {
+            BREEDING_PROBABILITY = 0.005;
+        }
+        else if(Weather.getTemperature() > 10) {
+            BREEDING_PROBABILITY = 0.01;
+        }
+    }
+    
+    public int decrementFoodLevel(){
+        foodLevel--;
+        return foodLevel;
+    }
+    
+        public int getMaxAge(){
+        return MAX_AGE;
+    }
 }

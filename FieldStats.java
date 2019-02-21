@@ -125,4 +125,10 @@ public class FieldStats
         }
         countsValid = true;
     }
+    
+    public HashMap getStats(){
+        
+        return counters;
+        
+    }
 }

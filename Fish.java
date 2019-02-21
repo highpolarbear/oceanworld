@@ -5,7 +5,7 @@ import java.util.List;
  * @author (your name)
  * @version (a version number or a date)
  */
-public abstract class Herbivores extends Organism
+public abstract class Fish extends Organism
 {
     
     protected Character[] genders = {'m', 'f'};
@@ -14,7 +14,7 @@ public abstract class Herbivores extends Organism
     int MAX_AGE;
     int foodLevel;
     
-    public Herbivores(Field field, Location location, Field plantationField)
+    public Fish(Field field, Location location, Field plantationField)
     {
         super(field, location);
         age = 0;

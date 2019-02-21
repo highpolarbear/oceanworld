@@ -26,7 +26,11 @@ public class SimulatorView extends JFrame
     private final String HOUR_PREFIX = "Hour: ";
     private final String HOUR_SUFFIX = " ";
     private final String POPULATION_PREFIX = "Population: ";
-    private JLabel stepLabel, population, infoLabel, hourLabel, dayLabel;
+    private final String SEASON_PREFIX = "Season: ";
+    private final String WEATHER_PREFIX = "Weather: ";
+    private final String TEMPERATURE_PREFIX = "Temperature: ";
+    private JLabel stepLabel, population, infoLabel, hourLabel, dayLabel, seasonLabel,
+                    weatherLabel, temperatureLabel;
     private FieldView fieldView, plantationView;
     
     // A map for storing colors for participants in the simulation
@@ -49,6 +53,9 @@ public class SimulatorView extends JFrame
         hourLabel = new JLabel(HOUR_PREFIX, JLabel.CENTER);
         infoLabel = new JLabel("  ", JLabel.CENTER);
         dayLabel = new JLabel("NULL", JLabel.CENTER);
+        seasonLabel = new JLabel(SEASON_PREFIX, JLabel.CENTER);
+        weatherLabel = new JLabel(WEATHER_PREFIX, JLabel.CENTER);
+        temperatureLabel = new JLabel(TEMPERATURE_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
         
         setLocation(100, 50);
@@ -57,11 +64,16 @@ public class SimulatorView extends JFrame
 
         Container contents = getContentPane();
         
+        JPanel infoPane2 = new JPanel(new BorderLayout());
         JPanel infoPane = new JPanel(new BorderLayout());
             infoPane.add(stepLabel, BorderLayout.WEST);
             infoPane.add(infoLabel, BorderLayout.CENTER);
             infoPane.add(hourLabel, BorderLayout.EAST);
             infoPane.add(dayLabel, BorderLayout.CENTER);
+            infoPane.add(infoPane2, BorderLayout.NORTH);
+            infoPane2.add(seasonLabel, BorderLayout. WEST);
+            infoPane2.add(weatherLabel, BorderLayout. CENTER);
+            infoPane2.add(temperatureLabel, BorderLayout. EAST);
         contents.add(infoPane, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
@@ -107,7 +119,7 @@ public class SimulatorView extends JFrame
      * @param step Which iteration step it is.
      * @param field The field whose status is to be displayed.
      */
-    public void showStatus(int step, Field field, int hour)
+    public void showStatus(int step, Field field, int hour, String season)
     {
         if(!isVisible()) {
             setVisible(true);
@@ -115,12 +127,16 @@ public class SimulatorView extends JFrame
             
         stepLabel.setText(STEP_PREFIX + step);
         hourLabel.setText(HOUR_PREFIX + hour + HOUR_SUFFIX);
+        seasonLabel.setText(SEASON_PREFIX + season);
+        weatherLabel.setText(WEATHER_PREFIX + Weather.getWeather());
+        temperatureLabel.setText(TEMPERATURE_PREFIX + Weather.getTemperature());
+        
         
         if (Time.isDay()){
-            dayLabel.setText("Day Time (sun) ");
+            dayLabel.setText("Day");
         }
         else if (!Time.isDay()){
-            dayLabel.setText("Night Time (moon) ");
+            dayLabel.setText("Night");
         }
         
         stats.reset();
@@ -146,48 +162,6 @@ public class SimulatorView extends JFrame
         stats.countFinished();
 
         population.setText(POPULATION_PREFIX + stats.getPopulationDetails(field));
-        fieldView.repaint();
-    }
-    
-    public void showPlantStatus(int step, Field plantationField, int hour)    
-    {
-        if(!isVisible()) {
-            setVisible(true);
-        }
-            
-        stepLabel.setText(STEP_PREFIX + step);
-        hourLabel.setText(HOUR_PREFIX + hour + HOUR_SUFFIX);
-        
-        if (Time.isDay()){
-            dayLabel.setText("Day Time (sun) ");
-        }
-        else if (!Time.isDay()){
-            dayLabel.setText("Night Time (moon) ");
-        }
-        
-        stats.reset();
-        
-        fieldView.preparePaint();
-
-        for(int row = 0; row < plantationField.getDepth(); row++) {
-            for(int col = 0; col < plantationField.getWidth(); col++) {
-                Object plant = plantationField.getObjectAt(row, col);
-                if(plant != null) {
-                    stats.incrementCount(plant.getClass());
-                    fieldView.drawMark(col, row, getColor(plant.getClass()));
-                }
-                else {
-                    fieldView.drawMark(col, row, EMPTY_COLOR);
-                }
-                
-                
-                
-            }
-        }
-        
-        stats.countFinished();
-
-        population.setText(POPULATION_PREFIX + stats.getPopulationDetails(plantationField));
         fieldView.repaint();
     }
 

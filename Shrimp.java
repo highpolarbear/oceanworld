@@ -9,7 +9,7 @@ import java.util.Iterator;
  * @version (a version number or a date)!
  */
 
-public class Shrimp extends Herbivores
+public class Shrimp extends Fish
 {
     // instance variables - replace the example below with your own
     
@@ -20,7 +20,7 @@ public class Shrimp extends Herbivores
     //private int MAX_AGE = 100;
     //private int foodLevel;
     private Field field;
-    private int PLANT_FOOD_VALUE = 100;
+    private int PLANT_FOOD_VALUE = 50;
     private Character gender;
     private int x;
     private Field plantationField;
@@ -34,9 +34,11 @@ public class Shrimp extends Herbivores
         
         this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 25;
-        foodLevel = 25;
+        MAX_AGE = 50;
+        foodLevel = 50;
         gender = genders[rand.nextInt(2)];
+        
+        
     }
 
     public void act(List<Organism> newShrimp){
@@ -49,17 +51,22 @@ public class Shrimp extends Herbivores
                 giveBirth(newShrimp);
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
-            Location newLocation = findGrass();
-            if (newLocation == null){
+            
+            /** weather*/
+            if(!Weather.getWeather().equals("overcast")) {
+                Location newLocation = findGrass();
+        
+                if (newLocation == null){
                 
-                newLocation = getField().freeAdjacentLocation(getLocation());
-            }
-            if(newLocation != null) {
-                setLocation(newLocation);
-            }
-            else {
-                // Overcrowding.
-                setDead();
+                    newLocation = getField().freeAdjacentLocation(getLocation());
+                }
+                if(newLocation != null) {
+                    setLocation(newLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
         }
     
@@ -69,13 +76,25 @@ public class Shrimp extends Herbivores
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = 4;//breed();
+        //int births = 4;//breed();
+        Random rand = new Random();
+        int births = rand.nextInt(2);
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
             Shrimp young = new Shrimp(field, loc, plantationField);
+
             newShrimp.add(young);
         }
+        
+        int probability = rand.nextInt(101);
+        
+        if (probability > 60 && free.size() > 0){
+            Location loc = free.remove(0);
+            Egg shrimpEgg = new Egg(plantationField, loc, field, this);
+            newShrimp.add(shrimpEgg);
+        }
+        
         
     }
     
@@ -142,7 +161,7 @@ public class Shrimp extends Herbivores
             Object organism = plantationField.getObjectAt(where);
             if(organism instanceof Plant) {
                 Plant plant = (Plant) organism;
-                if(plant.isAlive()) { 
+                if(plant.isAlive() && plant.isMature()) { 
                     plant.setDead();
                     foodLevel = PLANT_FOOD_VALUE;
                     return where;
@@ -187,5 +206,5 @@ public class Shrimp extends Herbivores
     public int getMaxAge(){
         return MAX_AGE;
     }
-
+    
 }

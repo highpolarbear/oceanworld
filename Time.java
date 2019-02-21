@@ -1,4 +1,4 @@
-
+import java.util.Random;
 /**
  * Write a description of class Time here.
  *
@@ -10,6 +10,10 @@ public class Time
     // instance variables - replace the example below with your own
     private static int hours;
     private static boolean isDay;
+    private static String [] seasons = {"spring", "summer", "autumn", "winter"};
+    private static String currentSeason;
+    private static int seasonCounter;
+    private static Random rand = Randomizer.getRandom();
 
     /**
      * Constructor for objects of class Time
@@ -43,7 +47,7 @@ public class Time
             isDay = false;
         }
     }
-    
+
     /**
      * Returns whether it is daytime or nighttime.
      */
@@ -57,13 +61,30 @@ public class Time
         return hours;
     }
     
-    public static int updateHours(int step){
+    public static String getCurrentSeason()
+    {
+        return currentSeason;
+    }
+    
+    public static void setRandomSeason()
+    {
+        seasonCounter = rand.nextInt(4);
+        currentSeason = seasons[seasonCounter];
+    }
+    
+    public static void updateHours(int step){
         if (step % 1 == 0){
             hours++;
             hours = hours % 24;
             toggleDay();
         }
-
-        return hours;
+    }
+    
+    public static void updateSeason(int step) {
+        if (step == 1 || step % 120 == 0){
+            seasonCounter++;
+            seasonCounter = seasonCounter % 4;
+            currentSeason = seasons[seasonCounter];
+        }
     }
 }
