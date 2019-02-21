@@ -20,11 +20,12 @@ Tasks completed :
  + Plants
 
  -- Task List --
- [ working ] Survivability
  [ completed ] Time (re-implimentation) + stabilisation
- [ working ] Ecosystem stabilisation
  [ completed ]  Add the rest of the animals
+ [ completed ] Weather
+ [ completed ] Extra Challenge tasks 
+
 
  [ working ] Disease
- [ inactive ] Weather
- [ inactive ] Extra Challenge tasks 
+ [ working ] Ecosystem stabilisation
+ [ working ] set values for weather
