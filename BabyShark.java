@@ -14,7 +14,7 @@ public class BabyShark extends Fish
     // instance variables - replace the example below with your own
     
     private int BREEDING_AGE = 32;
-    private double BREEDING_PROBABILITY = 0.02;
+    private double BREEDING_PROBABILITY = 0.025;
     private Random rand = Randomizer.getRandom();
     private int age;
     private int MAX_AGE;
@@ -22,6 +22,7 @@ public class BabyShark extends Fish
     private Field field;
     private Field plantationField;
     private int PLANT_FOOD_VALUE = 50;
+    public int animal_food_value = 40;
     private Character gender;
     private int x;
     private boolean alive;
@@ -45,12 +46,10 @@ public class BabyShark extends Fish
         if(hasInfection) {
             respondToInfection();
         }
-        System.out.println("sharks be actin");
         incrementAge();
         incrementHunger();
         
         if (isAlive()){
-            System.out.println("sharks be alive");
             if(isFemale() && mateFound()) {
                 giveBirth(newBabyShark);
             }
@@ -85,7 +84,7 @@ public class BabyShark extends Fish
                 
         int probability = rand.nextInt(101);
         
-        if (probability > 40 && free.size() > 0){
+        if (probability > 30 && free.size() > 0){
             Location loc = free.remove(0);
             Egg sharkEgg = new Egg(plantationField , loc, field, this);
             newBabyShark.add(sharkEgg);
@@ -137,7 +136,7 @@ public class BabyShark extends Fish
         return age;
     }
     
-        private Location findFood()
+    private Location findFood()
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
@@ -177,6 +176,7 @@ public class BabyShark extends Fish
                     return where;
                 }
             }
+            
             else if(organism instanceof Turtle) {
                 Turtle turtle = (Turtle) organism;
                 if(turtle.isAlive()) { 
@@ -187,7 +187,7 @@ public class BabyShark extends Fish
             }
         }
         return null;
-    }
+    } 
 
     private boolean mateFound()
     {

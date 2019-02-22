@@ -22,6 +22,7 @@ public class SwordFish extends Fish
     private Field field;
     private Field plantationField;
     private int PLANT_FOOD_VALUE = 50;
+    public int animal_food_value = 40;
     private Character gender;
     private int x;
 
@@ -79,7 +80,7 @@ public class SwordFish extends Fish
         
         int probability = rand.nextInt(101);
         
-        if (probability > 80 && free.size() > 0){
+        if (probability > 85 && free.size() > 0){
             Location loc = free.remove(0);
             Egg sFishEgg = new Egg(plantationField, loc, field, this);
             newSwordFish.add(sFishEgg);
@@ -162,6 +163,7 @@ public class SwordFish extends Fish
                     return where;
                 }
             }
+            /*
             else if(organism instanceof Turtle) {
                 Turtle turtle = (Turtle) organism;
                 if(turtle.isAlive()) { 
@@ -169,10 +171,10 @@ public class SwordFish extends Fish
                     foodLevel = PLANT_FOOD_VALUE;
                     return where;
                 }
-            }
+            }*/
         }
         return null;
-    }
+    } 
 
     private boolean mateFound()
     {

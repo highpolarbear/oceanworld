@@ -14,7 +14,7 @@ public class Shrimp extends Fish
     // instance variables - replace the example below with your own
     
     private int BREEDING_AGE = 1;
-    private double BREEDING_PROBABILITY = 0.32;
+    private double BREEDING_PROBABILITY = 0.40;
     private Random rand = Randomizer.getRandom();
     //private int age;
     //private int MAX_AGE = 100;
@@ -134,27 +134,26 @@ public class Shrimp extends Fish
         return age;
     }
     
-        private Location findFood()
+    protected Location findGrass()
     {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
+        List<Location> adjacent = plantationField.adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
-            Object organism = field.getObjectAt(where);
+            Object organism = plantationField.getObjectAt(where);
             if(organism instanceof Plant) {
                 Plant plant = (Plant) organism;
-                if(plant.isAlive()) { 
+                if(plant.isAlive() && plant.isMature()) { 
                     plant.setDead();
                     foodLevel = PLANT_FOOD_VALUE;
                     return where;
+                    
                 }
             }
         }
         return null;
     }
-    
-    private Location findGrass()
+    private Location s()
     {
         //Field plantationField = getPlantation();
         List<Location> adjacent = plantationField.adjacentLocations(getLocation());
@@ -210,4 +209,27 @@ public class Shrimp extends Fish
         return MAX_AGE;
     }
     
+    protected void incrementAge()
+        {
+        age++;
+        MAX_AGE = getMaxAge();
+       
+        if(age > MAX_AGE) {
+            setDead();
+            if(hasInfection){
+                Disease.decrementCounter();
+            }
+        }
+    }
+    
+    protected void incrementHunger()
+    {
+        foodLevel = decrementFoodLevel();
+        if (foodLevel <= 0){
+            setDead();
+            if(hasInfection){
+                Disease.decrementCounter();
+            }
+        }
+    }
 }

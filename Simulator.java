@@ -22,18 +22,18 @@ public class Simulator
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a fox will be created in any given grid position.
     private static final double PLANT_CREATION_PROBABILITY = 0.32; //0.15; 
-    
+    /////////
     private static final double SHRIMP_CREATION_PROBABILITY = 0.32; //0.005;
 
-    private static final double TURTLE_CREATION_PROBABILITY = 0.24; //0.01;
+    private static final double TURTLE_CREATION_PROBABILITY = 0.12; //0.01;
 
-    private static final double SQUID_CREATION_PROBABILITY = 0.32; //0.01;
+    private static final double SQUID_CREATION_PROBABILITY = 0.16; //0.01;
 
-    private static final double MACKEREL_CREATION_PROBABILITY = 0.16; //0.005;
+    private static final double MACKEREL_CREATION_PROBABILITY = 0.08; //0.005;
 
-    private static final double SWORDFISH_CREATION_PROBABILITY = 0.16; //0.0025;
+    private static final double SWORDFISH_CREATION_PROBABILITY = 0.08; //0.0025;
 
-    private static final double BABYSHARK_CREATION_PROBABILITY = 0.08; // 0.00125;
+    private static final double BABYSHARK_CREATION_PROBABILITY = 0.04; // 0.00125;
 
     // List of animals in the field.
     private List<Organism> organisms;

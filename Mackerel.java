@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Iterator;
 
+
 /**
  * Write a description of class Mackerel here.
  *
@@ -14,7 +15,7 @@ public class Mackerel extends Fish
     // instance variables - replace the example below with your own
     
     private int BREEDING_AGE = 8;
-    private double BREEDING_PROBABILITY = 0.16;
+    private double BREEDING_PROBABILITY = 0.08;
     private Random rand = Randomizer.getRandom();
     private int age;
     private int MAX_AGE;
@@ -24,6 +25,7 @@ public class Mackerel extends Fish
     private int MACKEREL_FOOD_VALUE = 50;
     private Character gender;
     private int x;
+    public int animal_food_value = 40;
 
     /**
      * Constructor for objects of class Mackerel
@@ -101,22 +103,6 @@ public class Mackerel extends Fish
         return births;
     }
     
-    public void incrementAge()
-        {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
-    }
-    
-    public void incrementHunger()
-    {
-        foodLevel--;
-        if (foodLevel <= 0){
-            setDead();
-        }
-    }
-    
     public boolean canBreed(){
         boolean returnValue;
         
@@ -142,11 +128,19 @@ public class Mackerel extends Fish
         while(it.hasNext()) {
             Location where = it.next();
             Object organism = field.getObjectAt(where);
-            if(organism instanceof Shrimp) {
+            if(organism instanceof SwordFish) {
+                SwordFish swordFish = (SwordFish) organism;
+                if(swordFish.isAlive()) { 
+                    swordFish.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Shrimp) {
                 Shrimp shrimp = (Shrimp) organism;
                 if(shrimp.isAlive()) { 
                     shrimp.setDead();
-                    foodLevel = MACKEREL_FOOD_VALUE;
+                    foodLevel = PLANT_FOOD_VALUE;
                     return where;
                 }
             }
@@ -154,10 +148,11 @@ public class Mackerel extends Fish
                 Squid squid = (Squid) organism;
                 if(squid.isAlive()) { 
                     squid.setDead();
-                    foodLevel = MACKEREL_FOOD_VALUE;
+                    foodLevel = PLANT_FOOD_VALUE;
                     return where;
                 }
             }
+            /*
             else if(organism instanceof Turtle) {
                 Turtle turtle = (Turtle) organism;
                 if(turtle.isAlive()) { 
@@ -165,10 +160,10 @@ public class Mackerel extends Fish
                     foodLevel = PLANT_FOOD_VALUE;
                     return where;
                 }
-            }
+            */
         }
         return null;
-    }
+    } 
 
     private boolean mateFound()
     {
@@ -220,7 +215,31 @@ public class Mackerel extends Fish
         return foodLevel;
     }
     
-        public int getMaxAge(){
+    public int getMaxAge(){
         return MAX_AGE;
+    }
+    
+    protected void incrementAge()
+        {
+        age++;
+        MAX_AGE = getMaxAge();
+       
+        if(age > MAX_AGE) {
+            setDead();
+            if(hasInfection){
+                Disease.decrementCounter();
+            }
+        }
+    }
+    
+    protected void incrementHunger()
+    {
+        foodLevel = decrementFoodLevel();
+        if (foodLevel <= 0){
+            setDead();
+            if(hasInfection){
+                Disease.decrementCounter();
+            }
+        }
     }
 }

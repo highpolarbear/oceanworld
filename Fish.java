@@ -17,6 +17,7 @@ public abstract class Fish extends Organism
     int MAX_AGE;
     int foodLevel;
     protected Field field;
+    protected Field plantationField;
     
     protected boolean hasInfection;
     protected final double INFECTING_PROBABILITY = 0.33;
@@ -27,6 +28,7 @@ public abstract class Fish extends Organism
         super(field, location);
         age = 0;
         this.field = field;
+        this.plantationField = plantationField;
         hasInfection = false;
         disease = new Disease(); // this disease object is 'dormant'. 
         // its methods are only called when the animal is infected
@@ -38,29 +40,6 @@ public abstract class Fish extends Organism
     
     abstract public int decrementFoodLevel();
     
-    protected void incrementAge()
-        {
-        age++;
-        MAX_AGE = getMaxAge();
-       
-        if(age > MAX_AGE) {
-            setDead();
-            if(hasInfection){
-                Disease.decrementCounter();
-            }
-        }
-    }
-    
-    protected void incrementHunger()
-    {
-        foodLevel = decrementFoodLevel();
-        if (foodLevel <= 0){
-            setDead();
-            if(hasInfection){
-                Disease.decrementCounter();
-            }
-        }
-    }
     
     // This method implements how an infection affects an animal
     // from the start of infection till it gets eliminated or kills the animal.
@@ -74,17 +53,17 @@ public abstract class Fish extends Organism
             
         if(step == antibodyActs) {
             toggleInfection();
-            System.out.println("saved by antibodies, hasInfection =" + hasInfection);
+            //System.out.println("saved by antibodies, hasInfection =" + hasInfection);
         }
         else if(step == infectionStart + Disease.getSpreadDelay()) {
            infectAnother();
-           System.out.println("spread");
+           //System.out.println("spread");
         }
         else if(step == infectionStart + Disease.getInfectionDuration()) {
             setDead();
-            System.out.println("killed by disease");
+            //System.out.println("killed by disease");
             Disease.decrementCounter();
-            System.out.println("decrement");
+            //System.out.println("decrement");
         }
     }
    
@@ -127,5 +106,4 @@ public abstract class Fish extends Organism
             }
         }
     }
-    
 }

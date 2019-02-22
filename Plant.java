@@ -68,9 +68,8 @@ public class Plant extends Organism
         
         if (! Time.isDay() || Time.isDay()){
             Field field = getField();
-            spreadRatio = 1; //rand.nextInt(2);
+            spreadRatio = 1;
             
-            /** changes*/
             List<Location> free = field.getFreeAdjacentLocations(getLocation());
             int births = breed();
             for(int b = 0; b < births && free.size() > 0; b++) {
@@ -79,22 +78,7 @@ public class Plant extends Organism
                 newPlants.add(young);
             }
         
-            /*for (int i = 0 ; i < spreadRatio; i++){
-                Location newLocation = getField().freeAdjacentLocation(getLocation());
-                if (newLocation == null){
-                
-                    newLocation = getField().freeAdjacentLocation(getLocation());
-                }
-                if(newLocation != null) {
-                    Plant youngPlant = new Plant(field, newLocation);
-                    newPlants.add(youngPlant);
-                }
-                else {
-                    setDead();
-                }      
-            
-            }*/
-        }
+        } 
         
         if(Weather.getWeather().equals("sunny")) {
             for (int i = 0 ; i < spreadRatio; i++){
