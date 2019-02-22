@@ -13,8 +13,8 @@ public class Turtle extends Fish
 {
     // instance variables - replace the example below with your own
     
-    private int BREEDING_AGE = 1;
-    private double BREEDING_PROBABILITY = 0.02;
+    private int BREEDING_AGE = 4;
+    private double BREEDING_PROBABILITY = 0.24;
     private Random rand = Randomizer.getRandom();
     //private int age;
     //private int MAX_AGE;
@@ -32,23 +32,24 @@ public class Turtle extends Fish
         super(field, location, plantationField);
         this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 20;
-        foodLevel = 25;
+        MAX_AGE = 30;
+        foodLevel = 30 + rand.nextInt(30);
         gender = genders[rand.nextInt(2)];
     }
 
     public void act(List<Organism> newTurtle){
         
+        if(hasInfection) {
+            respondToInfection();
+        }
+        
         incrementAge();
         incrementHunger();
               
-        if (isAlive()&& Time.isDay()){
-            
+        if (isAlive()&& !Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newTurtle);
             }
-            //Location newLocation = getField().freeAdjacentLocation(getLocation());
-            
             /** weather*/
             if(!Weather.getWeather().equals("overcast")) {
                 Location newLocation = findGrass();
@@ -74,7 +75,7 @@ public class Turtle extends Fish
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         Random rand = new Random();
-        int births = rand.nextInt(2);
+        int births = breed();
         
         
         for(int i = 0; i < births && free.size() > 0; i++) {

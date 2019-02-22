@@ -57,6 +57,7 @@ public abstract class Organism
             location = null;
             nextField = null;
         }
+
     }
     
     protected void setDead()

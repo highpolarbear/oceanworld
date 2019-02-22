@@ -29,8 +29,9 @@ public class SimulatorView extends JFrame
     private final String SEASON_PREFIX = "Season: ";
     private final String WEATHER_PREFIX = "Weather: ";
     private final String TEMPERATURE_PREFIX = "Temperature: ";
+    private final String INFECTION_PREFIX = "Infection count :";
     private JLabel stepLabel, population, infoLabel, hourLabel, dayLabel, seasonLabel,
-                    weatherLabel, temperatureLabel;
+                    weatherLabel, temperatureLabel, diseaseLabel;
     private FieldView fieldView, plantationView;
     
     // A map for storing colors for participants in the simulation
@@ -57,23 +58,30 @@ public class SimulatorView extends JFrame
         weatherLabel = new JLabel(WEATHER_PREFIX, JLabel.CENTER);
         temperatureLabel = new JLabel(TEMPERATURE_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
+        diseaseLabel = new JLabel(INFECTION_PREFIX, JLabel.CENTER);
         
         setLocation(100, 50);
         
         fieldView = new FieldView(height, width);
 
         Container contents = getContentPane();
-        
+        JPanel infoPane3 = new JPanel(new BorderLayout());
         JPanel infoPane2 = new JPanel(new BorderLayout());
         JPanel infoPane = new JPanel(new BorderLayout());
             infoPane.add(stepLabel, BorderLayout.WEST);
             infoPane.add(infoLabel, BorderLayout.CENTER);
             infoPane.add(hourLabel, BorderLayout.EAST);
-            infoPane.add(dayLabel, BorderLayout.CENTER);
+            //infoPane.add();
             infoPane.add(infoPane2, BorderLayout.NORTH);
+            
+            infoPane2.add(infoPane3, BorderLayout.NORTH);
             infoPane2.add(seasonLabel, BorderLayout. WEST);
-            infoPane2.add(weatherLabel, BorderLayout. CENTER);
-            infoPane2.add(temperatureLabel, BorderLayout. EAST);
+            infoPane2.add(dayLabel, BorderLayout.CENTER);
+            infoPane2.add(diseaseLabel, BorderLayout.EAST);
+            //infoPane2.add(temperatureLabel, BorderLayout. EAST);
+            
+            infoPane3.add(temperatureLabel, BorderLayout.EAST);
+            infoPane3.add(weatherLabel, BorderLayout.WEST);
         contents.add(infoPane, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
@@ -130,7 +138,7 @@ public class SimulatorView extends JFrame
         seasonLabel.setText(SEASON_PREFIX + season);
         weatherLabel.setText(WEATHER_PREFIX + Weather.getWeather());
         temperatureLabel.setText(TEMPERATURE_PREFIX + Weather.getTemperature());
-        
+        diseaseLabel.setText(INFECTION_PREFIX + Disease.getInfectionCounter());
         
         if (Time.isDay()){
             dayLabel.setText("Day");

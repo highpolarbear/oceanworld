@@ -13,8 +13,8 @@ public class Squid extends Fish
 {
     // instance variables - replace the example below with your own
     
-    private int BREEDING_AGE = 1;
-    private double BREEDING_PROBABILITY = 0.02;
+    private int BREEDING_AGE = 2;
+    private double BREEDING_PROBABILITY = 0.32;
     private Random rand = Randomizer.getRandom();
     //private int age;
     //private int MAX_AGE;
@@ -34,11 +34,15 @@ public class Squid extends Fish
         this.plantationField = plantationField;
         age = 0;
         MAX_AGE = 50;
-        foodLevel = 50;
+        foodLevel = 30 + rand.nextInt(30);
         gender = genders[rand.nextInt(2)];
     }
 
     public void act(List<Organism> newShrimp){
+        
+        if(hasInfection) {
+            respondToInfection();
+        }
         
         incrementAge();
         incrementHunger();
@@ -46,7 +50,7 @@ public class Squid extends Fish
         Random rand = new Random();
         int choice = rand.nextInt(2);
         
-        if (isAlive()&& Time.isDay()){
+        if (isAlive()&& !Time.isDay()){
             if(isFemale() && mateFound()) {
                 giveBirth(newShrimp);
             }
@@ -62,7 +66,7 @@ public class Squid extends Fish
                 
                 newLocation = getField().freeAdjacentLocation(getLocation());
             }
-            if(newLocation != null) {
+             if(newLocation != null) {
                 setLocation(newLocation);
             }
             else {
@@ -77,9 +81,8 @@ public class Squid extends Fish
         
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        //int births = breed();
+        int births = breed();
         Random rand = new Random();
-        int births = rand.nextInt(2);
         
         
         for(int i = 0; i < births && free.size() > 0; i++) {

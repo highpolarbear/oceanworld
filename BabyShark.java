@@ -13,7 +13,7 @@ public class BabyShark extends Fish
 {
     // instance variables - replace the example below with your own
     
-    private int BREEDING_AGE = 1;
+    private int BREEDING_AGE = 32;
     private double BREEDING_PROBABILITY = 0.02;
     private Random rand = Randomizer.getRandom();
     private int age;
@@ -24,6 +24,7 @@ public class BabyShark extends Fish
     private int PLANT_FOOD_VALUE = 50;
     private Character gender;
     private int x;
+    private boolean alive;
 
     /**
      * Constructor for objects of class BabyShark
@@ -33,34 +34,36 @@ public class BabyShark extends Fish
         super(field, location, plantationField);
         this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 50;
-        foodLevel = 70;
+        MAX_AGE = 150;
+        foodLevel = 10 + rand.nextInt(30);
         gender = genders[rand.nextInt(2)];
+        alive = true;
     }
 
     public void act(List<Organism> newBabyShark){
         
+        if(hasInfection) {
+            respondToInfection();
+        }
+        System.out.println("sharks be actin");
         incrementAge();
         incrementHunger();
         
-        if (isAlive() && Time.isDay()){
+        if (isAlive()){
+            System.out.println("sharks be alive");
             if(isFemale() && mateFound()) {
                 giveBirth(newBabyShark);
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
             Location newLocation = findFood();
-            if (newLocation == null){
-                
-                newLocation = getField().freeAdjacentLocation(getLocation());
-            }
             if(newLocation != null) {
                 setLocation(newLocation);
             }
             else {
-                // Overcrowding.
+                //Overcrowding.
                 setDead();
             }
-        }
+        }   
     
     }
     
@@ -69,7 +72,7 @@ public class BabyShark extends Fish
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         Random rand = new Random();
-        int births = rand.nextInt(2);
+        int births = breed();
         
         
         for(int i = 0; i < births && free.size() > 0; i++) {

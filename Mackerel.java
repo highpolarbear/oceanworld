@@ -13,8 +13,8 @@ public class Mackerel extends Fish
 {
     // instance variables - replace the example below with your own
     
-    private int BREEDING_AGE = 1;
-    private double BREEDING_PROBABILITY = 0.02;
+    private int BREEDING_AGE = 8;
+    private double BREEDING_PROBABILITY = 0.16;
     private Random rand = Randomizer.getRandom();
     private int age;
     private int MAX_AGE;
@@ -33,12 +33,16 @@ public class Mackerel extends Fish
         super(field, location, plantationField);
         this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 50;
-        foodLevel = 50;
+        MAX_AGE = 25 + rand.nextInt(30);
+        foodLevel = rand.nextInt(25);
         gender = genders[rand.nextInt(2)];
     }
 
     public void act(List<Organism> newMackerel){
+        
+        if(hasInfection) {
+            respondToInfection();
+        }
         
         incrementAge();
         incrementHunger();
@@ -50,15 +54,11 @@ public class Mackerel extends Fish
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
             Location newLocation = findFood();
-            if (newLocation == null){
-                
-                newLocation = getField().freeAdjacentLocation(getLocation());
-            }
             if(newLocation != null) {
                 setLocation(newLocation);
             }
             else {
-                // Overcrowding.
+                //Overcrowding.
                 setDead();
             }
         }
@@ -72,7 +72,7 @@ public class Mackerel extends Fish
         
         
         Random rand = new Random();
-        int births = rand.nextInt(2);
+        int births = breed();
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
@@ -155,6 +155,14 @@ public class Mackerel extends Fish
                 if(squid.isAlive()) { 
                     squid.setDead();
                     foodLevel = MACKEREL_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Turtle) {
+                Turtle turtle = (Turtle) organism;
+                if(turtle.isAlive()) { 
+                    turtle.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
                     return where;
                 }
             }

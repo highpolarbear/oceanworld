@@ -21,19 +21,19 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a fox will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.01; //0.15; 
+    private static final double PLANT_CREATION_PROBABILITY = 0.32; //0.15; 
     
-    private static final double SHRIMP_CREATION_PROBABILITY = 0.01; //0.005;
+    private static final double SHRIMP_CREATION_PROBABILITY = 0.32; //0.005;
 
-    private static final double TURTLE_CREATION_PROBABILITY = 0.007; //0.01;
+    private static final double TURTLE_CREATION_PROBABILITY = 0.24; //0.01;
 
-    private static final double SQUID_CREATION_PROBABILITY = 0.01; //0.01;
+    private static final double SQUID_CREATION_PROBABILITY = 0.32; //0.01;
 
-    private static final double MACKEREL_CREATION_PROBABILITY = 0.01; //0.005;
+    private static final double MACKEREL_CREATION_PROBABILITY = 0.16; //0.005;
 
-    private static final double SWORDFISH_CREATION_PROBABILITY = 0.005; //0.0025;
+    private static final double SWORDFISH_CREATION_PROBABILITY = 0.16; //0.0025;
 
-    private static final double BABYSHARK_CREATION_PROBABILITY = 0.001; // 0.00125;
+    private static final double BABYSHARK_CREATION_PROBABILITY = 0.08; // 0.00125;
 
     // List of animals in the field.
     private List<Organism> organisms;
@@ -91,7 +91,7 @@ public class Simulator
         view.setColor(Shrimp.class, Color.YELLOW);
         view.setColor(Squid.class, Color.CYAN);
         view.setColor(SwordFish.class, Color.MAGENTA);
-        view.setColor(BabyShark.class, Color.PINK);
+        view.setColor(BabyShark.class, Color.BLACK);
         view.setColor(Mackerel.class, Color.ORANGE);
         view.setColor(Turtle.class, Color.RED);
         
@@ -144,6 +144,17 @@ public class Simulator
             }
         }
     }
+    
+    
+    public void SeeMainActionSimulation()
+    {
+        for (int i = 0; i <150; i++)
+        {
+            simulate(1);
+        }
+        
+        runSlowSimulation();
+    }
     /** END OF TESTING METHODS ---------------------------**/
     
     /**
@@ -174,6 +185,8 @@ public class Simulator
         season = Time.getCurrentSeason();
         
         Weather.updateWeather(hour); 
+        
+        Disease.act(step, organisms);
 
         // Provide space for newborn animals.
         List<Organism> newOrganisms = new ArrayList<>();
@@ -211,6 +224,7 @@ public class Simulator
         populate();
         
         Time.setRandomSeason();
+        Disease.resetCounter();
         
         // Show the starting state in the view.
         view.showStatus(step, field, hour, season);

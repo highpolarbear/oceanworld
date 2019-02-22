@@ -1,9 +1,10 @@
 import java.util.List;
+import java.util.Random;
 
 public class Egg extends Organism
 {
     private int age;
-    private int MAX_AGE = 4;
+    private int MATURE_AGE = 4;
     private Field field;
     private Location location;
     private Field fishField;
@@ -34,7 +35,7 @@ public class Egg extends Organism
 
         if (canHatch){
             
-            List<Location> free = field.getFreeAdjacentLocations(getLocation());
+            List<Location> free = fishField.getFreeAdjacentLocations(getLocation());
             
             if (free.size() > 0){
                 int births = 1;
@@ -45,7 +46,6 @@ public class Egg extends Organism
                 }
                 setDead();
             }
-
         }
      
         
@@ -88,12 +88,31 @@ public class Egg extends Organism
     
     public boolean checkMaturity(){
     
-        if (age > MAX_AGE){
+        if (age > MATURE_AGE){
             return true;
         }
         else{
             return false;
         }
     
+    }
+        
+    private Location selectRandomLocation(){
+        Field field = getField();
+        
+        if (getField() != null){
+            Location randomLocation;
+            Random rand = new Random();
+            
+            int row = rand.nextInt(field.getDepth());
+            int column = rand.nextInt(field.getWidth());
+            
+            randomLocation = new Location (row, column);
+            
+            return randomLocation;
+        }
+        else{
+            return null;
+        }
     }
 }

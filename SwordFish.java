@@ -13,8 +13,8 @@ public class SwordFish extends Fish
 {
     // instance variables - replace the example below with your own
     
-    private int BREEDING_AGE = 1;
-    private double BREEDING_PROBABILITY = 0.01;
+    private int BREEDING_AGE = 16;
+    private double BREEDING_PROBABILITY = 0.08;
     private Random rand = Randomizer.getRandom();
     private int age;
     private int MAX_AGE;
@@ -33,12 +33,16 @@ public class SwordFish extends Fish
         super(field, location, plantationField);
         this.plantationField = plantationField;
         age = 0;
-        MAX_AGE = 30;
-        foodLevel = 50;
+        MAX_AGE = 25 + rand.nextInt(30);
+        foodLevel = rand.nextInt(25);
         gender = genders[rand.nextInt(2)];
     }
 
     public void act(List<Organism> newSwordFish){
+        
+        if(hasInfection) {
+            respondToInfection();
+        }
         
         incrementAge();
         incrementHunger();
@@ -49,10 +53,6 @@ public class SwordFish extends Fish
             }
             //Location newLocation = getField().freeAdjacentLocation(getLocation());
             Location newLocation = findFood();
-            if (newLocation == null){
-                
-                newLocation = getField().freeAdjacentLocation(getLocation());
-            }
             if(newLocation != null) {
                 setLocation(newLocation);
             }
@@ -69,7 +69,7 @@ public class SwordFish extends Fish
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         Random rand = new Random();
-        int births = rand.nextInt(2);
+        int births = breed();
         
         for(int i = 0; i < births && free.size() > 0; i++) {
             Location loc = free.remove(0);
@@ -79,7 +79,7 @@ public class SwordFish extends Fish
         
         int probability = rand.nextInt(101);
         
-        if (probability > 60 && free.size() > 0){
+        if (probability > 80 && free.size() > 0){
             Location loc = free.remove(0);
             Egg sFishEgg = new Egg(plantationField, loc, field, this);
             newSwordFish.add(sFishEgg);
@@ -158,6 +158,14 @@ public class SwordFish extends Fish
                 Squid squid = (Squid) organism;
                 if(squid.isAlive()) { 
                     squid.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Turtle) {
+                Turtle turtle = (Turtle) organism;
+                if(turtle.isAlive()) { 
+                    turtle.setDead();
                     foodLevel = PLANT_FOOD_VALUE;
                     return where;
                 }
