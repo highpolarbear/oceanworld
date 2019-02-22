@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Time
-comment0.text=\n\ Write\ a\ description\ of\ class\ Time\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\n\ Represents\ time\n\n\ @author\ Cherry\ Lim\ Siang\ Sue,\ David\ Yin\ and\ Terry\ Phung\n\ @version\ 22.02.2019\n
 comment1.params=
 comment1.target=Time()
 comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Time\n
@@ -9,14 +9,19 @@ comment2.target=boolean\ isDay()
 comment2.text=\n\ Returns\ whether\ it\ is\ daytime\ or\ nighttime.\n
 comment3.params=
 comment3.target=int\ getHours()
+comment3.text=\n\ returns\ hours\ passed\n
 comment4.params=
 comment4.target=java.lang.String\ getCurrentSeason()
+comment4.text=\n\ returns\ current\ season\n
 comment5.params=
 comment5.target=void\ setRandomSeason()
+comment5.text=\n\ randomly\ select\ a\ season\n
 comment6.params=step
 comment6.target=void\ updateHours(int)
+comment6.text=\n\ update\ the\ hour\ as\ step\ increments.\ 1\ hour\ per\ step.\n\ resets\ when\ hours\ reach\ 24,\ according\ to\ 24\ hour\ clock\n
 comment7.params=step
 comment7.target=void\ updateSeason(int)
+comment7.text=\n\ updates\ the\ season\ as\ step\ increments\n\ cycles\ through\ the\ four\ seasons\n
 comment8.params=
 comment8.target=void\ toggleDay()
 comment8.text=\n\ Times\ from\ 7am\ to\ 6pm\ are\ daytime.\ Else\ it\ is\ nighttime.\n

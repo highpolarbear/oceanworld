@@ -47,6 +47,10 @@ public class Simulator
     private Field field;
     
     private Field plantationField;
+    
+    private Time time;
+    
+    private Weather weather;
     // The current step of the simulation.
     private int step;
     // A graphical view of the simulation.
@@ -84,6 +88,8 @@ public class Simulator
         plantationField = new Field(depth, width);
         
         field = new Field(depth, width);
+        time = new Time();
+        weather = new Weather();
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
@@ -144,10 +150,10 @@ public class Simulator
     public void simulateOneStep()
     {
         step++;
-        Time.updateHours(step);
-        hour = Time.getHours();
-        Time.updateSeason(step);
-        season = Time.getCurrentSeason();
+        time.updateHours(step);
+        hour = time.getHours();
+        time.updateSeason(step);
+        season = time.getCurrentSeason();
         
         Weather.updateWeather(hour); 
         
@@ -186,7 +192,7 @@ public class Simulator
         plants.clear();
         populate();
         
-        Time.setRandomSeason();
+        time.setRandomSeason();
         Disease.resetCounter();
         
         // Show the starting state in the view.

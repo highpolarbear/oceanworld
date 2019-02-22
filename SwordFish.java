@@ -3,31 +3,36 @@ import java.util.Random;
 import java.util.Iterator;
 
 /**
- * Write a description of class SwordFish here.
+ * A simple model of a sword fish.
+ * Sword fish can get infected, age, move, reproduce, eat mackerel, shrimp and squid and die.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
  */
 
 public class SwordFish extends Fish
 {
-    // instance variables - replace the example below with your own
-    
+    // The age at which this fish can start to breed.
     private int BREEDING_AGE = 16;
+    // The likelihood of this organism breeding.
     private double BREEDING_PROBABILITY = 0.08;
+    // random generator
     private Random rand = Randomizer.getRandom();
 
+    // The age to which this organism can live.
     private int MAX_AGE;
 
     private Field field;
     private Field plantationField;
+    
+    // The food value of food. In effect, this is the
+    // number of steps a fish can go before it has to eat again.
     private int PLANT_FOOD_VALUE = 50;
-    public int animal_food_value = 40;
     private Character gender;
-    private int x;
     
     /**
-      * Constructor for objects of class SwordFish
+      * Create this organism at location in field.
+     * 
      */
     public SwordFish(Field field, Location location, Field plantationField)
     {
@@ -39,8 +44,13 @@ public class SwordFish extends Fish
         gender = genders[rand.nextInt(2)];
     }
 
-    public void act(List<Organism> newSwordFish){
-        
+   /**
+     * This is what this organism does most of the time: it hunts for
+     * food. In the process, it might get infected, breed, die of hunger,
+     * or die of old age.
+     */
+    public void act(List<Organism> newSwordFish)
+    {
         if(hasInfection) {
             respondToInfection();
         }
@@ -65,6 +75,10 @@ public class SwordFish extends Fish
     
     }
     
+    /**
+     * Check whether or not this organism is to give birth at this step.
+     * New births will be made into free adjacent locations.
+     */
     public void giveBirth(List<Organism> newSwordFish){
         
         Field field = getField();
@@ -87,6 +101,11 @@ public class SwordFish extends Fish
         }
     }
     
+    /**
+     * Generate a number representing the number of births,
+     * if it can breed.
+     * @return The number of births (may be zero).
+     */
     public int breed()
     {
         int births = 0;
@@ -98,6 +117,10 @@ public class SwordFish extends Fish
         return births;
     }
     
+    /**
+     * Increase the age.
+     * This could result in the organism's death.
+     */
     public void incrementAge()
         {
         age++;
@@ -106,6 +129,9 @@ public class SwordFish extends Fish
         }
     }
     
+    /**
+     * Make this organism more hungry. This could result in the organism's death.
+     */
     public void incrementHunger()
     {
         foodLevel--;
@@ -114,6 +140,10 @@ public class SwordFish extends Fish
         }
     }
     
+    /**
+     * this organism can breed if it has reached the breeding age.
+     * @return true if it can breed, false otherwise.
+     */
     public boolean canBreed(){
         boolean returnValue;
         
@@ -127,10 +157,11 @@ public class SwordFish extends Fish
         return returnValue;
     }
     
-    public int getAge(){
-        return age;
-    }
-    
+    /**
+     * Look for a mate adjacent to the current location.
+     * Only the first male is selected.
+     * @return true if mate found, else false.
+     */
     public boolean mateFound()
     {
         Field field = getField();
@@ -167,10 +198,18 @@ public class SwordFish extends Fish
         return foodLevel;
     }
     
+    /**
+     * returns maximum age
+     */
     public int getMaxAge(){
         return MAX_AGE;
     }
     
+    /**
+     * Look for food adjacent to the current location.
+     * Only the first food is eaten.
+     * @return Where food was found, or null if it wasn't.
+     */
     private Location findFood()
     {
         Field field = getField();

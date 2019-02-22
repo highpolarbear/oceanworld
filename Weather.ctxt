@@ -1,18 +1,22 @@
 #BlueJ class context
 comment0.target=Weather
-comment0.text=\n\ Write\ a\ description\ of\ class\ Weather\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment0.text=\n\ Represents\ weather\n\n\ @author\ Cherry\ Lim\ Siang\ Sue,\ David\ Yin\ and\ Terry\ Phung\n\ @version\ 22.02.2019\n
 comment1.params=
 comment1.target=Weather()
-comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Weather\ -\ UNUSED\ SO\ FAR\n
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Weather\n
 comment2.params=
 comment2.target=void\ setWeather()
+comment2.text=\n\ set\ the\ weather\ to\ one\ of\ sunny,\ clear,\ cloudy\ or\ overcast\n\ summer\ or\ winter\ changes\ the\ probability\ of\ certain\ weather\ types\n
 comment3.params=
 comment3.target=void\ setTemperature()
+comment3.text=\n\ set\ temperature\ according\ to\ weather\ conditions.\ further\ change\ temperature\n\ if\ it's\ summer\ or\ winter\n
 comment4.params=
 comment4.target=java.lang.String\ getWeather()
-comment4.text=\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\n\n\ @param\ \ y\ \ a\ sample\ parameter\ for\ a\ method\n\ @return\ \ \ \ the\ sum\ of\ x\ and\ y\n
+comment4.text=\n\ returns\ weather\ state\n
 comment5.params=
 comment5.target=int\ getTemperature()
+comment5.text=\n\ returns\ temperature\n
 comment6.params=hour
 comment6.target=void\ updateWeather(int)
+comment6.text=\n\ every\ 6\ hours,\ update\ weather\ and\ temperature\n
 numComments=7

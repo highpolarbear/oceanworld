@@ -2,20 +2,23 @@ import java.util.Random;
 import java.util.List;
 
 /**
- * Write a description of class Weather here.
+ * Represents weather
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
  */
 public class Weather
 {
-    private static String weather; // if not sunny, it's cloudy
-    private static int temperature; // in celsius
+    // stores weather type
+    private static String weather;
+    // temperature in celsius
+    private static int temperature; 
     private static Random rand = Randomizer.getRandom();
+    // array of weathers
     private static String[] weathers = {"sunny","clear","cloudy","overcast"};
 
     /**
-     * Constructor for objects of class Weather - UNUSED SO FAR
+     * Constructor for objects of class Weather
      */
     public Weather()
     {
@@ -23,6 +26,10 @@ public class Weather
         setTemperature();
     }
     
+    /**
+     * set the weather to one of sunny, clear, cloudy or overcast
+     * summer or winter changes the probability of certain weather types
+     */
     private static void setWeather()
     {
         if(Time.getCurrentSeason().equals("summer")){
@@ -56,14 +63,12 @@ public class Weather
         else{
             weather = weathers[rand.nextInt(4)];
         }
-        /*if(Time.isDay()) {
-            weather = weathers[rand.nextInt(4)];
-        }
-        else {
-            weather = "overcast";
-        }*/
     }
     
+    /**
+     * set temperature according to weather conditions. further change temperature
+     * if it's summer or winter
+     */
     private static void setTemperature()
     {
         if(weather.equals("sunny")) {
@@ -88,21 +93,24 @@ public class Weather
     }
     
     /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+     * returns weather state
      */
     public static String getWeather() 
     {
         return weather;
     }
     
+    /**
+     * returns temperature
+     */
     public static int getTemperature()
     {
         return temperature;
     }
     
+    /**
+     * every 6 hours, update weather and temperature
+     */
     public static void updateWeather(int hour)
     {
         if(hour == 7 || hour == 13 || hour == 19 || hour == 1) {
