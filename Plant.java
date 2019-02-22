@@ -9,33 +9,26 @@ import java.util.List;
  */
 public class Plant extends Organism
 {
+    private int MAX_AGE;
+    private static double BREEDING_PROBABILITY = 0.15;
+    private static final int MAX_LITTER_SIZE = 6;
+    
     private int age;
-    
     private Location location;
-    
     private long spreadRatio;
     
     private Random rand = new Random();
     
     private boolean alive;
-    
-    private Field field;
-    
-    private int MAX_AGE;
-    
     private boolean mature;
     
-    private static double BREEDING_PROBABILITY = 0.15;
-    private static final int MAX_LITTER_SIZE = 6;
-    
+    private Field field;
     /**
      * Constructor for objects of class SeaWeed
      */
     public Plant(Field field, Location location)
     {
         super(field, location);
-        //field.place(this, location);
-        //this.field = field;
         alive = true;
         age = 0;
         MAX_AGE = 140;
@@ -44,24 +37,6 @@ public class Plant extends Organism
     
     public int spreadProbability(){
         return rand.nextInt(1);
-    }
-    
-    private Location selectRandomLocation(){
-        Field field = getField();
-        
-        if (getField() != null){
-            Location randomLocation;
-            
-            int row = rand.nextInt(field.getDepth());
-            int column = rand.nextInt(field.getWidth());
-            
-            randomLocation = new Location (row, column);
-            
-            return randomLocation;
-        }
-        else{
-            return null;
-        }
     }
     
     public void makeNewPlant(List<Organism> newPlants){
@@ -96,16 +71,6 @@ public class Plant extends Organism
         }
     }
     
-    private int breed()
-    {
-        int births = 0;
-        if(rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
-    }
-    /** end of changes*/
-    
     public void act(List<Organism> newPlant){
         incrementAge();
         updateBP();
@@ -115,13 +80,14 @@ public class Plant extends Organism
         else {
                 setDead();
         }
-        
-            
-        
     }
     
     public int getAge(){
         return age;
+    }
+    
+    public boolean isMature(){
+        return mature;
     }
     
     private void incrementAge()
@@ -134,6 +100,8 @@ public class Plant extends Organism
             mature = true;
         }
     }
+    
+    //private methods
     
     /** weather*/
     private void updateBP()
@@ -149,19 +117,30 @@ public class Plant extends Organism
         }
     }
     
-   
-    public boolean isMature(){
-        return mature;
-    }
-    /**
-    protected void setDead()
+    private int breed()
     {
-        alive = false;
-        if(location != null) {
-            field.clear(location);
-            System.out.println("field loc cleared");
-            location = null;
-            field = null;
+        int births = 0;
+        if(rand.nextDouble() <= BREEDING_PROBABILITY) {
+            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
-    }*/
+        return births;
+    }
+        
+    private Location selectRandomLocation(){
+        Field field = getField();
+        
+        if (getField() != null){
+            Location randomLocation;
+            
+            int row = rand.nextInt(field.getDepth());
+            int column = rand.nextInt(field.getWidth());
+            
+            randomLocation = new Location (row, column);
+            
+            return randomLocation;
+        }
+        else{
+            return null;
+        }
+    }
 }

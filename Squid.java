@@ -11,20 +11,17 @@ import java.util.Iterator;
 
 public class Squid extends Fish
 {
-    // instance variables - replace the example below with your own
+
     
     private int BREEDING_AGE = 2;
     private double BREEDING_PROBABILITY = 0.16;
-    private Random rand = Randomizer.getRandom();
-    //private int age;
-    //private int MAX_AGE;
-    //private int foodLevel;
-    private Field field;
     private int PLANT_FOOD_VALUE = 50;
-    public int animal_food_value = 40;
-    private Character gender;
-    private int x;
+    private Random rand = Randomizer.getRandom();
+
+    private Field field;
     private Field plantationField;
+
+    private Character gender;
 
     /**
      * Constructor for objects of class Squid
@@ -39,6 +36,8 @@ public class Squid extends Fish
         gender = genders[rand.nextInt(2)];
     }
 
+    // public methods
+    
     public void act(List<Organism> newShrimp){
         
         if(hasInfection) {
@@ -77,26 +76,6 @@ public class Squid extends Fish
         }
     
     }
-    
-    private Location findFood()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object organism = field.getObjectAt(where);
-            if(organism instanceof Shrimp) {
-                Shrimp shrimp = (Shrimp) organism;
-                if(shrimp.isAlive()) { 
-                    shrimp.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                }
-            }
-        }
-        return null;
-    } 
 
     public void giveBirth(List<Organism> newSquid){
         
@@ -122,36 +101,7 @@ public class Squid extends Fish
         
     }
     
-    private int breed()
-    {
-        int births = 0;
-        
-        int probability = (int) (rand.nextInt(100) * BREEDING_PROBABILITY);
-        
-        births = probability;
-        
-        return births;
-    }
-
-    
-    private boolean canBreed(){
-        boolean returnValue;
-        
-        if (age >= BREEDING_AGE){
-            returnValue = true;
-        }
-        else{
-            returnValue = false;
-        }
-        
-        return returnValue;
-    }
-    
-    public int getAge(){
-        return age;
-    }
-    
-    protected Location findGrass()
+    public Location findGrass()
     {
         List<Location> adjacent = plantationField.adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
@@ -170,26 +120,8 @@ public class Squid extends Fish
         }
         return null;
     }
-
-    private boolean mateFound()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            if(animal instanceof Squid) {
-                Squid shrimp = (Squid) animal;
-                if(!shrimp.isFemale()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
+    
+        /**
      * Checks if it is female
      */
     public boolean isFemale()
@@ -206,12 +138,16 @@ public class Squid extends Fish
         return MAX_AGE;
     }
     
+    public int getAge(){
+        return age;
+    }
+    
     public int decrementFoodLevel(){
         foodLevel--;
         return foodLevel;
     }
     
-    protected void incrementAge()
+    public void incrementAge()
         {
         age++;
         MAX_AGE = getMaxAge();
@@ -224,7 +160,7 @@ public class Squid extends Fish
         }
     }
     
-    protected void incrementHunger()
+    public void incrementHunger()
     {
         foodLevel = decrementFoodLevel();
         if (foodLevel <= 0){
@@ -234,4 +170,67 @@ public class Squid extends Fish
             }
         }
     }
+    
+    public boolean mateFound()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            if(animal instanceof Squid) {
+                Squid shrimp = (Squid) animal;
+                if(!shrimp.isFemale()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public int breed()
+    {
+        int births = 0;
+        
+        int probability = (int) (rand.nextInt(100) * BREEDING_PROBABILITY);
+        
+        births = probability;
+        
+        return births;
+    }
+
+    public boolean canBreed(){
+        boolean returnValue;
+        
+        if (age >= BREEDING_AGE){
+            returnValue = true;
+        }
+        else{
+            returnValue = false;
+        }
+        
+        return returnValue;
+    }
+    //private methods
+    
+    private Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object organism = field.getObjectAt(where);
+            if(organism instanceof Shrimp) {
+                Shrimp shrimp = (Shrimp) organism;
+                if(shrimp.isAlive()) { 
+                    shrimp.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
+        return null;
+    } 
 }

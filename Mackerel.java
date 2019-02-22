@@ -1,3 +1,4 @@
+
 import java.util.List;
 import java.util.Random;
 import java.util.Iterator;
@@ -16,16 +17,15 @@ public class Mackerel extends Fish
     
     private int BREEDING_AGE = 8;
     private double BREEDING_PROBABILITY = 0.08;
-    private Random rand = Randomizer.getRandom();
-    private int age;
     private int MAX_AGE;
-    private int foodLevel;
+    private int MACKEREL_FOOD_VALUE = 50;
+    
+    private Random rand = Randomizer.getRandom();
+
     private Field field;
     private Field plantationField;
-    private int MACKEREL_FOOD_VALUE = 50;
+    
     private Character gender;
-    private int x;
-    public int animal_food_value = 40;
 
     /**
      * Constructor for objects of class Mackerel
@@ -92,16 +92,6 @@ public class Mackerel extends Fish
         }
     }
     
-    private int breed()
-    {
-        int births = 0;
-        
-        int probability = (int) (rand.nextInt(100) * BREEDING_PROBABILITY);
-        
-        births = probability;
-        
-        return births;
-    }
     
     public boolean canBreed(){
         boolean returnValue;
@@ -118,69 +108,6 @@ public class Mackerel extends Fish
     
     public int getAge(){
         return age;
-    }
-    
-        private Location findFood()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object organism = field.getObjectAt(where);
-            if(organism instanceof SwordFish) {
-                SwordFish swordFish = (SwordFish) organism;
-                if(swordFish.isAlive()) { 
-                    swordFish.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                }
-            }
-            else if(organism instanceof Shrimp) {
-                Shrimp shrimp = (Shrimp) organism;
-                if(shrimp.isAlive()) { 
-                    shrimp.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                }
-            }
-            else if(organism instanceof Squid) {
-                Squid squid = (Squid) organism;
-                if(squid.isAlive()) { 
-                    squid.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                }
-            }
-            /*
-            else if(organism instanceof Turtle) {
-                Turtle turtle = (Turtle) organism;
-                if(turtle.isAlive()) { 
-                    turtle.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                }
-            */
-        }
-        return null;
-    } 
-
-    private boolean mateFound()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            if(animal instanceof Mackerel) {
-                Mackerel mackerel = (Mackerel) animal;
-                if(!mackerel.isFemale()) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -219,7 +146,7 @@ public class Mackerel extends Fish
         return MAX_AGE;
     }
     
-    protected void incrementAge()
+    public void incrementAge()
         {
         age++;
         MAX_AGE = getMaxAge();
@@ -232,7 +159,7 @@ public class Mackerel extends Fish
         }
     }
     
-    protected void incrementHunger()
+    public void incrementHunger()
     {
         foodLevel = decrementFoodLevel();
         if (foodLevel <= 0){
@@ -242,4 +169,71 @@ public class Mackerel extends Fish
             }
         }
     }
+    
+    public boolean mateFound()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            if(animal instanceof Mackerel) {
+                Mackerel mackerel = (Mackerel) animal;
+                if(!mackerel.isFemale()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public int breed()
+    {
+        int births = 0;
+        
+        int probability = (int) (rand.nextInt(100) * BREEDING_PROBABILITY);
+        
+        births = probability;
+        
+        return births;
+    }
+    
+    //private methods
+    
+    private Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object organism = field.getObjectAt(where);
+            if(organism instanceof SwordFish) {
+                SwordFish swordFish = (SwordFish) organism;
+                if(swordFish.isAlive()) { 
+                    swordFish.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Shrimp) {
+                Shrimp shrimp = (Shrimp) organism;
+                if(shrimp.isAlive()) { 
+                    shrimp.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Squid) {
+                Squid squid = (Squid) organism;
+                if(squid.isAlive()) { 
+                    squid.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
+        return null;
+    } 
 }

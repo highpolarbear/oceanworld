@@ -208,13 +208,4 @@ public class Field
     {
         return width;
     }
-    /*
-    public List getRandomCoordinates(){
-        Arraylist<int> coordinates = new ArrayList();
-        
-        int row = rand.nextInt(getWidth());
-        int column = rand.nextInt(getDepth());
-        
-        
-    }*/
 }

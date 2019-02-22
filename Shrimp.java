@@ -11,20 +11,18 @@ import java.util.Iterator;
 
 public class Shrimp extends Fish
 {
-    // instance variables - replace the example below with your own
     
     private int BREEDING_AGE = 1;
     private double BREEDING_PROBABILITY = 0.40;
-    private Random rand = Randomizer.getRandom();
-    //private int age;
-    //private int MAX_AGE = 100;
-    //private int foodLevel;
-    private Field field;
     private int PLANT_FOOD_VALUE = 50;
-    private Character gender;
-    private int x;
-    private Field plantationField;
+    
+    private Random rand = Randomizer.getRandom();
 
+    private Field field;
+    private Field plantationField;
+    
+    private Character gender;
+    
     /**
      * Constructor for objects of class Shrimp
      */
@@ -40,6 +38,8 @@ public class Shrimp extends Fish
        
     }
 
+    //public methods
+    
     public void act(List<Organism> newShrimp){
         
         if(hasInfection) {
@@ -101,80 +101,77 @@ public class Shrimp extends Fish
         
     }
     
-    private int breed()
+    public Location findGrass()
     {
-        int births = 0;
-        
-        int probability = (int) (rand.nextInt(100) * BREEDING_PROBABILITY);
-        
-        births = probability;
-        
-        return births;
+        List<Location> adjacent = plantationField.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object organism = plantationField.getObjectAt(where);
+            if(organism instanceof Plant) {
+                Plant plant = (Plant) organism;
+                if(plant.isAlive() && plant.isMature()) { 
+                    plant.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                    
+                }
+            }
+        }
+        return null;
     }
     
-    public int decrementFoodLevel(){
-        foodLevel--;
-        return foodLevel;
-    }
-    
-    private boolean canBreed(){
-        boolean returnValue;
-        
-        if (age >= BREEDING_AGE){
-            returnValue = true;
+        /**
+     * Checks if it is female
+     */
+    public boolean isFemale()
+    {
+        if (gender.equals('f')) { 
+            return true;
         }
-        else{
-            returnValue = false;
+        else {
+            return false;
         }
-        
-        return returnValue;
     }
     
     public int getAge(){
         return age;
     }
-    
-    protected Location findGrass()
-    {
-        List<Location> adjacent = plantationField.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object organism = plantationField.getObjectAt(where);
-            if(organism instanceof Plant) {
-                Plant plant = (Plant) organism;
-                if(plant.isAlive() && plant.isMature()) { 
-                    plant.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                    
-                }
-            }
-        }
-        return null;
+
+    public int decrementFoodLevel(){
+        foodLevel--;
+        return foodLevel;
     }
-    private Location s()
-    {
-        //Field plantationField = getPlantation();
-        List<Location> adjacent = plantationField.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object organism = plantationField.getObjectAt(where);
-            if(organism instanceof Plant) {
-                Plant plant = (Plant) organism;
-                if(plant.isAlive() && plant.isMature()) { 
-                    plant.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                    
-                }
-            }
-        }
-        return null;
+
+    public int getMaxAge(){
+        return MAX_AGE;
     }
     
-    private boolean mateFound()
+    public void incrementAge()
+        {
+        age++;
+        MAX_AGE = getMaxAge();
+       
+        if(age > MAX_AGE) {
+            setDead();
+            if(hasInfection){
+                Disease.decrementCounter();
+            }
+        }
+    }
+    
+    public void incrementHunger()
+    {
+        foodLevel = decrementFoodLevel();
+        if (foodLevel <= 0){
+            setDead();
+            if(hasInfection){
+                Disease.decrementCounter();
+            }
+        }
+    }
+    
+    public boolean mateFound()
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
@@ -191,45 +188,30 @@ public class Shrimp extends Fish
         }
         return false;
     }
-
-    /**
-     * Checks if it is female
-     */
-    public boolean isFemale()
+    
+    //private Methods
+    
+    public int breed()
     {
-        if (gender.equals('f')) { 
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    public int getMaxAge(){
-        return MAX_AGE;
+        int births = 0;
+        
+        int probability = (int) (rand.nextInt(100) * BREEDING_PROBABILITY);
+        
+        births = probability;
+        
+        return births;
     }
     
-    protected void incrementAge()
-        {
-        age++;
-        MAX_AGE = getMaxAge();
-       
-        if(age > MAX_AGE) {
-            setDead();
-            if(hasInfection){
-                Disease.decrementCounter();
-            }
+    public boolean canBreed(){
+        boolean returnValue;
+        
+        if (age >= BREEDING_AGE){
+            returnValue = true;
         }
-    }
-    
-    protected void incrementHunger()
-    {
-        foodLevel = decrementFoodLevel();
-        if (foodLevel <= 0){
-            setDead();
-            if(hasInfection){
-                Disease.decrementCounter();
-            }
+        else{
+            returnValue = false;
         }
+        
+        return returnValue;
     }
 }

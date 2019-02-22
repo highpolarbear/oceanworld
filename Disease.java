@@ -39,12 +39,6 @@ public class Disease
         setAntibodyDelay();
     }
     
-    private void setAntibodyDelay() {
-        antibodyDelay = rand.nextInt(INFECTION_DURATION * 3); 
-        // there's a third of a chance the antibody won't eliminate the infection
-        // before it kills the host
-    }
-
     /**
      * Tracks each step as simulator runs to decide whether or not to start a new disease epidemic.
      */
@@ -62,23 +56,10 @@ public class Disease
         }
     }
     
-    private static void startDisease() 
-    {
-        
-        
-        int orgSize = allOrganisms.size();
-        Organism org;
-        
-        // select a random animal to infect
-        for(int i = 0; i < orgSize; i++) {
-            org = allOrganisms.get(rand.nextInt(orgSize));
-            if (org instanceof Fish) {
-                Fish fish = (Fish) org;
-                fish.toggleInfection();
-                return;
-            }
-        }
-        
+    private void setAntibodyDelay() {
+        antibodyDelay = rand.nextInt(INFECTION_DURATION * 3); 
+        // there's a third of a chance the antibody won't eliminate the infection
+        // before it kills the host
     }
     
     public static void incrementCounter()
@@ -135,4 +116,24 @@ public class Disease
         return antibodyDelay;
     }
    
+    // private methods
+    
+    private static void startDisease() 
+    {
+        
+        
+        int orgSize = allOrganisms.size();
+        Organism org;
+        
+        // select a random animal to infect
+        for(int i = 0; i < orgSize; i++) {
+            org = allOrganisms.get(rand.nextInt(orgSize));
+            if (org instanceof Fish) {
+                Fish fish = (Fish) org;
+                fish.toggleInfection();
+                return;
+            }
+        }
+        
+    }
 }

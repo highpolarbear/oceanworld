@@ -11,12 +11,12 @@ import java.util.Iterator;
 
 public class Turtle extends Fish
 {
-    // instance variables - replace the example below with your own
     private int BREEDING_AGE = 4;
     private double BREEDING_PROBABILITY = 0.40;
-    private Random rand = Randomizer.getRandom();
-    private Field field;
     private int PLANT_FOOD_VALUE = 20;
+    private Random rand = Randomizer.getRandom();
+    
+    private Field field;
     private Character gender;
     private Field plantationField;
 
@@ -33,6 +33,8 @@ public class Turtle extends Fish
         gender = genders[rand.nextInt(2)];
     }
 
+    //public methods
+    
     public void act(List<Organism> newTurtle){
         if(hasInfection) {
             respondToInfection();
@@ -92,53 +94,6 @@ public class Turtle extends Fish
         
     }
     
-    private int breed()
-    {
-        int births = 0;
-        
-        int probability = (int) (rand.nextInt(100) * BREEDING_PROBABILITY);
-        
-        births = probability;
-        
-        return births;
-    }
-        
-    private boolean canBreed(){
-        boolean returnValue;
-        
-        if (age >= BREEDING_AGE){
-            returnValue = true;
-        }
-        else{
-            returnValue = false;
-        }
-        
-        return returnValue;
-    }
-    
-    public int getAge(){
-        return age;
-    }
-    
-    
-    private boolean mateFound()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            if(animal instanceof Turtle) {
-                Turtle turtle = (Turtle) animal;
-                if(!turtle.isFemale()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     /**
      * Checks if it is female
      */
@@ -156,12 +111,85 @@ public class Turtle extends Fish
         return MAX_AGE;
     }
     
+    public int getAge(){
+        return age;
+    }
+    
     public int decrementFoodLevel(){
         foodLevel--;
         return foodLevel;
     }
     
-        protected Location findGrass()
+        public int breed()
+    {
+        int births = 0;
+        
+        int probability = (int) (rand.nextInt(100) * BREEDING_PROBABILITY);
+        
+        births = probability;
+        
+        return births;
+    }
+        
+    public boolean canBreed(){
+        boolean returnValue;
+        
+        if (age >= BREEDING_AGE){
+            returnValue = true;
+        }
+        else{
+            returnValue = false;
+        }
+        
+        return returnValue;
+    }
+    
+    public boolean mateFound()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            if(animal instanceof Turtle) {
+                Turtle turtle = (Turtle) animal;
+                if(!turtle.isFemale()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    
+    //Private Methods 
+    
+    private void incrementAge()
+        {
+        age++;
+        MAX_AGE = getMaxAge();
+       
+        if(age > MAX_AGE) {
+            setDead();
+            if(hasInfection){
+                Disease.decrementCounter();
+            }
+        }
+    }
+    
+    private void incrementHunger()
+    {
+        foodLevel = decrementFoodLevel();
+        if (foodLevel <= 0){
+            setDead();
+            if(hasInfection){
+                Disease.decrementCounter();
+            }
+        }
+    }
+    
+    private Location findGrass()
     {
         List<Location> adjacent = plantationField.adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
@@ -179,30 +207,5 @@ public class Turtle extends Fish
             }
         }
         return null;
-    }
-    
-    
-    protected void incrementAge()
-        {
-        age++;
-        MAX_AGE = getMaxAge();
-       
-        if(age > MAX_AGE) {
-            setDead();
-            if(hasInfection){
-                Disease.decrementCounter();
-            }
-        }
-    }
-    
-    protected void incrementHunger()
-    {
-        foodLevel = decrementFoodLevel();
-        if (foodLevel <= 0){
-            setDead();
-            if(hasInfection){
-                Disease.decrementCounter();
-            }
-        }
     }
 }

@@ -20,20 +20,20 @@ public class Simulator
     private static final int DEFAULT_WIDTH = 120;
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
-    // The probability that a fox will be created in any given grid position.
-    private static final double PLANT_CREATION_PROBABILITY = 0.32; //0.15; 
+    // The probability that a plant will be created in the plantation field.
+    private static final double PLANT_CREATION_PROBABILITY = 0.32;
     /////////
-    private static final double SHRIMP_CREATION_PROBABILITY = 0.32; //0.005;
+    private static final double SHRIMP_CREATION_PROBABILITY = 0.32;
 
-    private static final double TURTLE_CREATION_PROBABILITY = 0.12; //0.01;
+    private static final double TURTLE_CREATION_PROBABILITY = 0.12;
 
-    private static final double SQUID_CREATION_PROBABILITY = 0.16; //0.01;
+    private static final double SQUID_CREATION_PROBABILITY = 0.16;
 
-    private static final double MACKEREL_CREATION_PROBABILITY = 0.08; //0.005;
+    private static final double MACKEREL_CREATION_PROBABILITY = 0.08;
 
-    private static final double SWORDFISH_CREATION_PROBABILITY = 0.08; //0.0025;
+    private static final double SWORDFISH_CREATION_PROBABILITY = 0.08;
 
-    private static final double BABYSHARK_CREATION_PROBABILITY = 0.04; // 0.00125;
+    private static final double BABYSHARK_CREATION_PROBABILITY = 0.04;
 
     // List of animals in the field.
     private List<Organism> organisms;
@@ -113,49 +113,14 @@ public class Simulator
         simulate(4000);
     }
     
-    
-    /** FOR TESTING PURPOSES -- TO BE REMOVED IN FINAL FILE **/
-    public void runLongSlowestSimulation()
-    {
-        for (int i = 0; i < 5000; i++)
-        {
-            simulate(1);
-            try {
-                Thread.sleep(1000);
-            }
-        
-            catch (InterruptedException e) {
-                System.out.println("sim halt");
-            }
-        }
-    }
-    
     public void runSlowSimulation()
     {
         for (int i = 0; i < 5000; i++)
         {
             simulate(1);
-            try {
-                Thread.sleep(50);
-            }
-        
-            catch (InterruptedException e) {
-                System.out.println("sim halt");
-            }
+            delay(50);
         }
     }
-    
-    
-    public void SeeMainActionSimulation()
-    {
-        for (int i = 0; i <150; i++)
-        {
-            simulate(1);
-        }
-        
-        runSlowSimulation();
-    }
-    /** END OF TESTING METHODS ---------------------------**/
     
     /**
      * Run the simulation from its current state for the given number of steps.
@@ -191,7 +156,7 @@ public class Simulator
         // Provide space for newborn animals.
         List<Organism> newOrganisms = new ArrayList<>();
 
-        // Let all rabbits act.
+        // Let all organisms act.
         for(Iterator<Organism> it = organisms.iterator(); it.hasNext(); ) {
             Organism organism = it.next();
             organism.act(newOrganisms);
@@ -207,8 +172,6 @@ public class Simulator
 
         view.showStatus(step, field, hour, season);
         plantationView.showStatus(step, plantationField, hour, season);
-        
-        //System.out.println("Hour : " + hour + " , tick : " + step);
     }
 
     

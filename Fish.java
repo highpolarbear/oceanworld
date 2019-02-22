@@ -13,9 +13,10 @@ public abstract class Fish extends Organism
     
     protected Character[] genders = {'m', 'f'};
     
-    int age;
-    int MAX_AGE;
-    int foodLevel;
+    protected int age;
+    protected int MAX_AGE;
+    protected int foodLevel;
+    
     protected Field field;
     protected Field plantationField;
     
@@ -40,6 +41,11 @@ public abstract class Fish extends Organism
     
     abstract public int decrementFoodLevel();
     
+    abstract public boolean mateFound();
+    
+    abstract public boolean canBreed();
+    
+    abstract public int breed();
     
     // This method implements how an infection affects an animal
     // from the start of infection till it gets eliminated or kills the animal.

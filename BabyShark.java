@@ -11,21 +11,16 @@ import java.util.Iterator;
 
 public class BabyShark extends Fish
 {
-    // instance variables - replace the example below with your own
-    
     private int BREEDING_AGE = 32;
     private double BREEDING_PROBABILITY = 0.025;
+    private int PLANT_FOOD_VALUE = 50;
     private Random rand = Randomizer.getRandom();
-    private int age;
-    private int MAX_AGE;
-    private int foodLevel;
+    
     private Field field;
     private Field plantationField;
-    private int PLANT_FOOD_VALUE = 50;
-    public int animal_food_value = 40;
+
+
     private Character gender;
-    private int x;
-    private boolean alive;
 
     /**
      * Constructor for objects of class BabyShark
@@ -38,7 +33,6 @@ public class BabyShark extends Fish
         MAX_AGE = 150;
         foodLevel = 10 + rand.nextInt(30);
         gender = genders[rand.nextInt(2)];
-        alive = true;
     }
 
     public void act(List<Organism> newBabyShark){
@@ -92,7 +86,7 @@ public class BabyShark extends Fish
         
     }
     
-    private int breed()
+    public int breed()
     {
         int births = 0;
         
@@ -119,7 +113,7 @@ public class BabyShark extends Fish
         }
     }
     
-    private boolean canBreed(){
+    public boolean canBreed(){
         boolean returnValue;
         
         if (age >= BREEDING_AGE){
@@ -134,6 +128,48 @@ public class BabyShark extends Fish
     
     public int getAge(){
         return age;
+    }
+    
+   
+
+    public boolean mateFound()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            if(animal instanceof BabyShark) {
+                BabyShark babyShark = (BabyShark) animal;
+                if(!babyShark.isFemale()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if it is female
+     */
+    public boolean isFemale()
+    {
+        if (gender.equals('f')) { 
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    public int decrementFoodLevel(){
+        foodLevel--;
+        return foodLevel;
+    }
+    
+    public int getMaxAge(){
+        return MAX_AGE;
     }
     
     private Location findFood()
@@ -188,44 +224,4 @@ public class BabyShark extends Fish
         }
         return null;
     } 
-
-    private boolean mateFound()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object animal = field.getObjectAt(where);
-            if(animal instanceof BabyShark) {
-                BabyShark babyShark = (BabyShark) animal;
-                if(!babyShark.isFemale()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks if it is female
-     */
-    public boolean isFemale()
-    {
-        if (gender.equals('f')) { 
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    
-    public int decrementFoodLevel(){
-        foodLevel--;
-        return foodLevel;
-    }
-    
-        public int getMaxAge(){
-        return MAX_AGE;
-    }
 }

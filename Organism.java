@@ -104,6 +104,4 @@ public abstract class Organism
     {
         return field;
     }
-    
-    
 }

@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class Weather
 {
-    // instance variables - replace the example below with your own
     private static String weather; // if not sunny, it's cloudy
     private static int temperature; // in celsius
     private static Random rand = Randomizer.getRandom();
@@ -20,7 +19,6 @@ public class Weather
      */
     public Weather()
     {
-        // initialise instance variables
         setWeather();
         setTemperature();
     }

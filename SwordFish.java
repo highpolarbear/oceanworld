@@ -16,18 +16,18 @@ public class SwordFish extends Fish
     private int BREEDING_AGE = 16;
     private double BREEDING_PROBABILITY = 0.08;
     private Random rand = Randomizer.getRandom();
-    private int age;
+
     private int MAX_AGE;
-    private int foodLevel;
+
     private Field field;
     private Field plantationField;
     private int PLANT_FOOD_VALUE = 50;
     public int animal_food_value = 40;
     private Character gender;
     private int x;
-
+    
     /**
-     * Constructor for objects of class SwordFish
+      * Constructor for objects of class SwordFish
      */
     public SwordFish(Field field, Location location, Field plantationField)
     {
@@ -87,7 +87,7 @@ public class SwordFish extends Fish
         }
     }
     
-    private int breed()
+    public int breed()
     {
         int births = 0;
         
@@ -114,7 +114,7 @@ public class SwordFish extends Fish
         }
     }
     
-    private boolean canBreed(){
+    public boolean canBreed(){
         boolean returnValue;
         
         if (age >= BREEDING_AGE){
@@ -131,52 +131,7 @@ public class SwordFish extends Fish
         return age;
     }
     
-        private Location findFood()
-    {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while(it.hasNext()) {
-            Location where = it.next();
-            Object organism = field.getObjectAt(where);
-            if(organism instanceof Mackerel) {
-                Mackerel mackerel = (Mackerel) organism;
-                if(mackerel.isAlive()) { 
-                    mackerel.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                }
-            }
-            else if(organism instanceof Shrimp) {
-                Shrimp shrimp = (Shrimp) organism;
-                if(shrimp.isAlive()) { 
-                    shrimp.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                }
-            }
-            else if(organism instanceof Squid) {
-                Squid squid = (Squid) organism;
-                if(squid.isAlive()) { 
-                    squid.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                }
-            }
-            /*
-            else if(organism instanceof Turtle) {
-                Turtle turtle = (Turtle) organism;
-                if(turtle.isAlive()) { 
-                    turtle.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
-                    return where;
-                }
-            }*/
-        }
-        return null;
-    } 
-
-    private boolean mateFound()
+    public boolean mateFound()
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
@@ -212,7 +167,43 @@ public class SwordFish extends Fish
         return foodLevel;
     }
     
-        public int getMaxAge(){
+    public int getMaxAge(){
         return MAX_AGE;
     }
+    
+    private Location findFood()
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object organism = field.getObjectAt(where);
+            if(organism instanceof Mackerel) {
+                Mackerel mackerel = (Mackerel) organism;
+                if(mackerel.isAlive()) { 
+                    mackerel.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Shrimp) {
+                Shrimp shrimp = (Shrimp) organism;
+                if(shrimp.isAlive()) { 
+                    shrimp.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+            else if(organism instanceof Squid) {
+                Squid squid = (Squid) organism;
+                if(squid.isAlive()) { 
+                    squid.setDead();
+                    foodLevel = PLANT_FOOD_VALUE;
+                    return where;
+                }
+            }
+        }
+        return null;
+    } 
 }
