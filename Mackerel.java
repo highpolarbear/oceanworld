@@ -5,21 +5,26 @@ import java.util.Iterator;
 
 
 /**
- * Write a description of class Mackerel here.
+ * A simple model of a mackerel.
+ * Mackerels can get infected, age, move, reproduce, eat swordfish, shrimp and squid and die.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
  */
 
 public class Mackerel extends Fish
 {
-    // instance variables - replace the example below with your own
-    
+    // The age at which this fish can start to breed.
     private int BREEDING_AGE = 8;
+    // The likelihood of this organism breeding.
     private double BREEDING_PROBABILITY = 0.08;
+    // The age to which this organism can live.
     private int MAX_AGE;
-    private int MACKEREL_FOOD_VALUE = 50;
     
+    // The food value of food. In effect, this is the
+    // number of steps a fish can go before it has to eat again.
+    private int FOOD_VALUE = 50;
+    // random generator
     private Random rand = Randomizer.getRandom();
 
     private Field field;
@@ -28,7 +33,10 @@ public class Mackerel extends Fish
     private Character gender;
 
     /**
-     * Constructor for objects of class Mackerel
+     * Create this organism at location in field.
+     * 
+     * @param field The field currently occupied.
+     * @param location The location within the field.
      */
     public Mackerel(Field field, Location location, Field plantationField)
     {
@@ -67,6 +75,10 @@ public class Mackerel extends Fish
     
     }
     
+    /**
+     * Check whether or not this organism is to give birth at this step.
+     * New births will be made into free adjacent locations.
+     */
     public void giveBirth(List<Organism> newMackerel){
         
         Field field = getField();
@@ -92,7 +104,10 @@ public class Mackerel extends Fish
         }
     }
     
-    
+    /**
+     * this organism can breed if it has reached the breeding age.
+     * @return true if it can breed, false otherwise.
+     */
     public boolean canBreed(){
         boolean returnValue;
         
@@ -106,9 +121,6 @@ public class Mackerel extends Fish
         return returnValue;
     }
     
-    public int getAge(){
-        return age;
-    }
 
     /**
      * Checks if it is female
@@ -123,7 +135,9 @@ public class Mackerel extends Fish
         }
     }
     
-    /** weather*/
+    /** 
+     * Change the breeding probability according to weather conditions
+     */
     private void updateBP()
     {
         if(Weather.getTemperature() > 25) {
@@ -137,15 +151,25 @@ public class Mackerel extends Fish
         }
     }
     
+    /**
+     * decreases food level by 1 and returns food level
+     */
     public int decrementFoodLevel(){
         foodLevel--;
         return foodLevel;
     }
     
+    /**
+     * returns maximum age
+     */
     public int getMaxAge(){
         return MAX_AGE;
     }
     
+    /**
+     * Increase the age.
+     * This could result in the organism's death.
+     */
     public void incrementAge()
         {
         age++;
@@ -159,6 +183,9 @@ public class Mackerel extends Fish
         }
     }
     
+    /**
+     * Make this organism more hungry. This could result in the organism's death.
+     */
     public void incrementHunger()
     {
         foodLevel = decrementFoodLevel();
@@ -170,6 +197,11 @@ public class Mackerel extends Fish
         }
     }
     
+    /**
+     * Look for a mate adjacent to the current location.
+     * Only the first male is selected.
+     * @return true if mate found, else false.
+     */
     public boolean mateFound()
     {
         Field field = getField();
@@ -188,6 +220,11 @@ public class Mackerel extends Fish
         return false;
     }
     
+    /**
+     * Generate a number representing the number of births,
+     * if it can breed.
+     * @return The number of births (may be zero).
+     */
     public int breed()
     {
         int births = 0;
@@ -201,6 +238,11 @@ public class Mackerel extends Fish
     
     //private methods
     
+    /**
+     * Look for food adjacent to the current location.
+     * Only the first food is eaten.
+     * @return Where food was found, or null if it wasn't.
+     */
     private Location findFood()
     {
         Field field = getField();
@@ -213,7 +255,7 @@ public class Mackerel extends Fish
                 SwordFish swordFish = (SwordFish) organism;
                 if(swordFish.isAlive()) { 
                     swordFish.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
+                    foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
@@ -221,7 +263,7 @@ public class Mackerel extends Fish
                 Shrimp shrimp = (Shrimp) organism;
                 if(shrimp.isAlive()) { 
                     shrimp.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
+                    foodLevel = FOOD_VALUE;
                     return where;
                 }
             }
@@ -229,7 +271,7 @@ public class Mackerel extends Fish
                 Squid squid = (Squid) organism;
                 if(squid.isAlive()) { 
                     squid.setDead();
-                    foodLevel = PLANT_FOOD_VALUE;
+                    foodLevel = FOOD_VALUE;
                     return where;
                 }
             }

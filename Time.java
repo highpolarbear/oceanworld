@@ -1,18 +1,23 @@
 import java.util.Random;
 /**
- * Write a description of class Time here.
+ * Represents time
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
  */
 public class Time
 {
-    private static int hours;
+    // hours that have passed
+    private int hours;
+    // boolean of whether or not it is day time 
     private static boolean isDay;
+    // array of seasons
     private static String [] seasons = {"spring", "summer", "autumn", "winter"};
+    // current season
     private static String currentSeason;
+    // tracks the cycle of seasons, with spring as the first
     private static int seasonCounter;
-    private static Random rand = Randomizer.getRandom();
+    private Random rand = Randomizer.getRandom();
 
     /**
      * Constructor for objects of class Time
@@ -21,6 +26,7 @@ public class Time
     {
         hours = 0;
         isDay = false;
+        setRandomSeason();
     }
     
     /**
@@ -31,23 +37,36 @@ public class Time
         return isDay;
     }
     
-    public static int getHours()
+    /**
+     * returns hours passed
+     */
+    public int getHours()
     {
         return hours;
     }
     
+    /**
+     * returns current season
+     */
     public static String getCurrentSeason()
     {
         return currentSeason;
     }
     
-    public static void setRandomSeason()
+    /**
+     * randomly select a season
+     */
+    public void setRandomSeason()
     {
         seasonCounter = rand.nextInt(4);
         currentSeason = seasons[seasonCounter];
     }
     
-    public static void updateHours(int step){
+    /**
+     * update the hour as step increments. 1 hour per step.
+     * resets when hours reach 24, according to 24 hour clock
+     */
+    public void updateHours(int step){
         if (step % 1 == 0){
             hours++;
             hours = hours % 24;
@@ -55,7 +74,11 @@ public class Time
         }
     }
     
-    public static void updateSeason(int step) {
+    /**
+     * updates the season as step increments
+     * cycles through the four seasons
+     */
+    public void updateSeason(int step) {
         if (step == 1 || step % 120 == 0){
             seasonCounter++;
             seasonCounter = seasonCounter % 4;
@@ -66,7 +89,7 @@ public class Time
     /**
       * Times from 7am to 6pm are daytime. Else it is nighttime.
       */
-    private static void toggleDay()
+    private void toggleDay()
     {
         if (hours >= 7 && hours < 19){
             isDay = true;

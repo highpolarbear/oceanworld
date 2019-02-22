@@ -1,18 +1,32 @@
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A simple model of a fish egg.
+ * Eggs age, hatch and die.
+ * 
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
+ */
+
 public class Egg extends Organism
 {
+    // organism's age
     private int age;
+    // age at which egg matures
     private int MATURE_AGE = 4;
+    // egg's field
     private Field field;
+    // organism's location
     private Location location;
+    // field of fishes where new eggs
     private Field fishField;
     private Class type;
     private Organism parent;
 
     /**
-     * Constructor for objects of class Egg
+     * Create this organism at location in field.
+     * 
      */
     public Egg(Field field, Location location, Field fishField, Organism organism)
     {
@@ -28,13 +42,20 @@ public class Egg extends Organism
         setLocation(location);
     }
     
+    /**
+     * egg hatches, ages. or dies
+     * @param newRabbits A list to return newly born eggs.
+     */
     public void act(List<Organism> newEgg)
     {
+        //checks if the egg is ready to hatch
         boolean canHatch = checkMaturity();
+        // increment age
         age++;
-
+        //if the egg can hatch, finds the closest location on the field of 
+        //fishes and spawns a new fish of the same type as its parent.
         if (canHatch){
-            
+           
             List<Location> free = fishField.getFreeAdjacentLocations(getLocation());
             
             if (free.size() > 0){
@@ -44,16 +65,23 @@ public class Egg extends Organism
                     Organism newOrganism = hatch(loc, field);
                     newEgg.add(newOrganism);
                 }
-                setDead();
+                setDead(); //the fish is spawned, no need for the egg to
+                           // still exist.
             }
         }
      
         
     }
     
+    /**
+     * hatch a new egg for each organism
+     */
     public Organism hatch(Location location, Field field){
         Organism newOrganism = null;
         
+        //Checks the type of egg it is depending on its parent,
+        //spawns a new fish of the same type as its parent 
+        //and passes it on.
                       
         if (parent instanceof Shrimp){
             newOrganism = new Shrimp(fishField, location, field);
@@ -81,13 +109,11 @@ public class Egg extends Organism
         return newOrganism;
     }
     
-    public int getAge()
-    {
-        return age;
-    }
-    
+    /**
+     * return true if egg is above mature age else false
+     */ 
     public boolean checkMaturity(){
-    
+        //checks if egg is ready to spawn
         if (age > MATURE_AGE){
             return true;
         }
@@ -97,6 +123,9 @@ public class Egg extends Organism
     
     }
         
+    /**
+     * select a random location in the field
+     */
     private Location selectRandomLocation(){
         Field field = getField();
         

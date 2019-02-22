@@ -3,17 +3,24 @@ import java.util.Random;
 import java.util.Iterator;
 
 /**
- * Write a description of class BabyShark here.
+ * A simple model of a shark.
+ * Sharks can get infected, age, move, reproduce, eat all other fish and die.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
  */
 
 public class BabyShark extends Fish
 {
+    
+    // The age at which this fish can start to breed.
     private int BREEDING_AGE = 32;
+    // The likelihood of this organism breeding.
     private double BREEDING_PROBABILITY = 0.025;
+    // The food value of food. In effect, this is the
+    // number of steps a fish can go before it has to eat again.
     private int PLANT_FOOD_VALUE = 50;
+    // random generator
     private Random rand = Randomizer.getRandom();
     
     private Field field;
@@ -23,7 +30,8 @@ public class BabyShark extends Fish
     private Character gender;
 
     /**
-     * Constructor for objects of class BabyShark
+     * Create this organism at location in field.
+     * 
      */
     public BabyShark(Field field, Location location, Field plantationField)
     {
@@ -35,6 +43,11 @@ public class BabyShark extends Fish
         gender = genders[rand.nextInt(2)];
     }
 
+    /**
+     * This is what this organism does most of the time: it hunts for
+     * food. In the process, it might get infected, breed, die of hunger,
+     * or die of old age.
+     */
     public void act(List<Organism> newBabyShark){
         
         if(hasInfection) {
@@ -60,6 +73,10 @@ public class BabyShark extends Fish
     
     }
     
+    /**
+     * Check whether or not this organism is to give birth at this step.
+     * New births will be made into free adjacent locations.
+     */
     public void giveBirth(List<Organism> newBabyShark){
         
         Field field = getField();
@@ -86,6 +103,11 @@ public class BabyShark extends Fish
         
     }
     
+    /**
+     * Generate a number representing the number of births,
+     * if it can breed.
+     * @return The number of births (may be zero).
+     */
     public int breed()
     {
         int births = 0;
@@ -97,6 +119,10 @@ public class BabyShark extends Fish
         return births;
     }
     
+    /**
+     * Increase the age.
+     * This could result in the organism's death.
+     */
     public void incrementAge()
         {
         age++;
@@ -105,6 +131,9 @@ public class BabyShark extends Fish
         }
     }
     
+    /**
+     * Make this organism more hungry. This could result in the organism's death.
+     */
     public void incrementHunger()
     {
         foodLevel--;
@@ -113,6 +142,10 @@ public class BabyShark extends Fish
         }
     }
     
+    /**
+     * this organism can breed if it has reached the breeding age.
+     * @return true if it can breed, false otherwise.
+     */
     public boolean canBreed(){
         boolean returnValue;
         
@@ -126,12 +159,12 @@ public class BabyShark extends Fish
         return returnValue;
     }
     
-    public int getAge(){
-        return age;
-    }
-    
-   
 
+    /**
+     * Look for a mate adjacent to the current location.
+     * Only the first male is selected.
+     * @return true if mate found, else false.
+     */
     public boolean mateFound()
     {
         Field field = getField();
@@ -168,10 +201,18 @@ public class BabyShark extends Fish
         return foodLevel;
     }
     
+    /**
+     * returns maximum age
+     */
     public int getMaxAge(){
         return MAX_AGE;
     }
     
+    /**
+     * Look for food adjacent to the current location.
+     * Only the first food is eaten.
+     * @return Where food was found, or null if it wasn't.
+     */
     private Location findFood()
     {
         Field field = getField();

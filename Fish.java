@@ -3,27 +3,38 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * Write a description of class Herbivores here.
+ * A class representing shared characteristics of fish.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
  */
 public abstract class Fish extends Organism
 {
-    
+    // an array of characters representing genders for assigning
     protected Character[] genders = {'m', 'f'};
-    
+    // the fish's age
     protected int age;
+    // maximum age before fish dies
     protected int MAX_AGE;
+    // fish's food level which is increased by eating food
     protected int foodLevel;
-    
+    // fish's field
     protected Field field;
+    // separate field on sea floor to find plants and lay eggs
     protected Field plantationField;
-    
+    // true if fish is infected else false
     protected boolean hasInfection;
+    // probability of fish infecting another one
     protected final double INFECTING_PROBABILITY = 0.33;
+    // variable for storing disease object 
     protected Disease disease;
     
+    /**
+     * Create a new fish at location in field.
+     * 
+     * @param field The field currently occupied.
+     * @param location The location within the field.
+     */
     public Fish(Field field, Location location, Field plantationField)
     {
         super(field, location);
@@ -35,22 +46,44 @@ public abstract class Fish extends Organism
         // its methods are only called when the animal is infected
     }
     
+    /**
+     * Make this fish act - that is: make it do
+     * whatever it wants/needs to do.
+     * @param newAnimals A list to receive newly born animals.
+     */
     abstract public void act(List<Organism> newAnimals);
     
+    /**
+     * returns maximum age
+     */
     abstract public int getMaxAge();
     
+    /**
+     * decreases food level by 1
+     */
     abstract public int decrementFoodLevel();
     
+    /**
+     * returns true if mate is found for fish else false
+     */
     abstract public boolean mateFound();
     
+    /**
+     * returns true if fish is of breeding age
+     */
     abstract public boolean canBreed();
     
+    /**
+     * method for breeding. returns number of offspring to give birth to
+     */
     abstract public int breed();
     
-    // This method implements how an infection affects an animal
-    // from the start of infection till it gets eliminated or kills the animal.
-    // At certain steps after infection, the antibody will act or the animal
-    // will infect another, or the infection will kill the animal.
+    /**
+     * This method implements how an infection affects an animal
+     * from the start of infection till it gets eliminated or kills the animal.
+     * At certain steps after infection, the antibody will act or the animal
+     * will infect another, or the infection will kill the animal.
+     */
     protected void respondToInfection()
     {
         int step = Disease.getCurrentStep();
@@ -73,7 +106,9 @@ public abstract class Fish extends Organism
         }
     }
    
-    // toggles whether or not animal is infected
+    /**
+     * toggles whether or not animal is infected
+     */
     protected void toggleInfection()
     {
         hasInfection = !hasInfection;
@@ -90,6 +125,9 @@ public abstract class Fish extends Organism
         }
     }
     
+    /**
+     * method for infecting another fish
+     */
     protected void infectAnother()
     {
         /** null pointer? */

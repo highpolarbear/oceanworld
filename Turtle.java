@@ -3,17 +3,24 @@ import java.util.Random;
 import java.util.Iterator;
 
 /**
- * Write a description of class Turtle here.
+ * A simple model of a turtle.
+ * Turtle can get infected, age, move, reproduce, eat plants and die.
  *
- * @author (your name)
- * @version (a version number or a date)!
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
  */
 
 public class Turtle extends Fish
 {
+    // The age at which this fish can start to breed.
     private int BREEDING_AGE = 4;
+    // The likelihood of this organism breeding.
     private double BREEDING_PROBABILITY = 0.40;
+    
+    // The food value of food. In effect, this is the
+    // number of steps a fish can go before it has to eat again.
     private int PLANT_FOOD_VALUE = 20;
+    // random generator
     private Random rand = Randomizer.getRandom();
     
     private Field field;
@@ -21,7 +28,8 @@ public class Turtle extends Fish
     private Field plantationField;
 
     /**
-     * Constructor for objects of class Turtle
+     * Create this organism at location in field.
+     * 
      */
     public Turtle(Field field, Location location, Field plantationField)
     {
@@ -35,6 +43,11 @@ public class Turtle extends Fish
 
     //public methods
     
+    /**
+     * This is what this organism does most of the time: it hunts for
+     * food. In the process, it might get infected, breed, die of hunger,
+     * or die of old age.
+     */
     public void act(List<Organism> newTurtle){
         if(hasInfection) {
             respondToInfection();
@@ -69,6 +82,10 @@ public class Turtle extends Fish
     
     }
     
+    /**
+     * Check whether or not this organism is to give birth at this step.
+     * New births will be made into free adjacent locations.
+     */
     public void giveBirth(List<Organism> newTurtle){
         
         Field field = getField();
@@ -107,12 +124,11 @@ public class Turtle extends Fish
         }
     }
     
+    /**
+     * returns maximum age
+     */
     public int getMaxAge(){
         return MAX_AGE;
-    }
-    
-    public int getAge(){
-        return age;
     }
     
     public int decrementFoodLevel(){
@@ -120,6 +136,11 @@ public class Turtle extends Fish
         return foodLevel;
     }
     
+    /**
+     * Generate a number representing the number of births,
+     * if it can breed.
+     * @return The number of births (may be zero).
+     */
         public int breed()
     {
         int births = 0;
@@ -131,6 +152,10 @@ public class Turtle extends Fish
         return births;
     }
         
+    /**
+     * this organism can breed if it has reached the breeding age.
+     * @return true if it can breed, false otherwise.
+     */
     public boolean canBreed(){
         boolean returnValue;
         
@@ -144,6 +169,11 @@ public class Turtle extends Fish
         return returnValue;
     }
     
+    /**
+     * Look for a mate adjacent to the current location.
+     * Only the first male is selected.
+     * @return true if mate found, else false.
+     */
     public boolean mateFound()
     {
         Field field = getField();
@@ -165,6 +195,10 @@ public class Turtle extends Fish
     
     //Private Methods 
     
+    /**
+     * Increase the age.
+     * This could result in the organism's death.
+     */
     private void incrementAge()
         {
         age++;
@@ -178,6 +212,9 @@ public class Turtle extends Fish
         }
     }
     
+    /**
+     * Make this organism more hungry. This could result in the organism's death.
+     */
     private void incrementHunger()
     {
         foodLevel = decrementFoodLevel();
@@ -189,6 +226,11 @@ public class Turtle extends Fish
         }
     }
     
+    /**
+     * Look for food adjacent to the current location.
+     * Only the first food is eaten.
+     * @return Where food was found, or null if it wasn't.
+     */
     private Location findGrass()
     {
         List<Location> adjacent = plantationField.adjacentLocations(getLocation());

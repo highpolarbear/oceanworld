@@ -31,7 +31,7 @@ public class SimulatorView extends JFrame
     private final String TEMPERATURE_PREFIX = "Temperature: ";
     private final String INFECTION_PREFIX = "Infection count :";
     private JLabel stepLabel, population, infoLabel, hourLabel, dayLabel, seasonLabel,
-                    weatherLabel, temperatureLabel, diseaseLabel;
+    weatherLabel, temperatureLabel, diseaseLabel;
     private FieldView fieldView, plantationView;
     
     // A map for storing colors for participants in the simulation
@@ -68,20 +68,18 @@ public class SimulatorView extends JFrame
         JPanel infoPane3 = new JPanel(new BorderLayout());
         JPanel infoPane2 = new JPanel(new BorderLayout());
         JPanel infoPane = new JPanel(new BorderLayout());
-            infoPane.add(stepLabel, BorderLayout.WEST);
-            infoPane.add(infoLabel, BorderLayout.CENTER);
-            infoPane.add(hourLabel, BorderLayout.EAST);
-            //infoPane.add();
-            infoPane.add(infoPane2, BorderLayout.NORTH);
+        infoPane.add(stepLabel, BorderLayout.WEST);
+        infoPane.add(infoLabel, BorderLayout.CENTER);
+        infoPane.add(hourLabel, BorderLayout.EAST);
+        infoPane.add(infoPane2, BorderLayout.NORTH);
             
-            infoPane2.add(infoPane3, BorderLayout.NORTH);
-            infoPane2.add(seasonLabel, BorderLayout. WEST);
-            infoPane2.add(dayLabel, BorderLayout.CENTER);
-            infoPane2.add(diseaseLabel, BorderLayout.EAST);
-            //infoPane2.add(temperatureLabel, BorderLayout. EAST);
+        infoPane2.add(infoPane3, BorderLayout.NORTH);
+        infoPane2.add(seasonLabel, BorderLayout. WEST);
+        infoPane2.add(dayLabel, BorderLayout.CENTER);
+        infoPane2.add(diseaseLabel, BorderLayout.EAST);
             
-            infoPane3.add(temperatureLabel, BorderLayout.EAST);
-            infoPane3.add(weatherLabel, BorderLayout.WEST);
+        infoPane3.add(temperatureLabel, BorderLayout.EAST);
+        infoPane3.add(weatherLabel, BorderLayout.WEST);
         contents.add(infoPane, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);

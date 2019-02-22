@@ -2,29 +2,36 @@ import java.util.Random;
 import java.util.List;
 
 /**
- * Write a description of class Plants here.
+ * A simple model of a plant.
+ * Plants age, reproduce, and die.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
  */
 public class Plant extends Organism
 {
+    // The age to which this organism can live.
     private int MAX_AGE;
+    // The likelihood of this organism breeding.
     private static double BREEDING_PROBABILITY = 0.15;
-    private static final int MAX_LITTER_SIZE = 6;
-    
+    // The maximum number of offspring.
+    private static final int MAX_OFFSPRING_SIZE = 6;
+    // organism's age
     private int age;
+    // organism's location
     private Location location;
     private long spreadRatio;
-    
+    // random generator
     private Random rand = new Random();
     
     private boolean alive;
+    // 
     private boolean mature;
     
     private Field field;
     /**
-     * Constructor for objects of class SeaWeed
+     * Create this organism at location in field.
+     * 
      */
     public Plant(Field field, Location location)
     {
@@ -39,25 +46,26 @@ public class Plant extends Organism
         return rand.nextInt(1);
     }
     
+    /**
+     * Generate new plants. If weather is sunny, generate more plants in
+     * random locations
+     */
     public void makeNewPlant(List<Organism> newPlants){
         
-        if (! Time.isDay() || Time.isDay()){
-            Field field = getField();
-            spreadRatio = 1;
+        Field field = getField();
+        spreadRatio = 1;
             
-            List<Location> free = field.getFreeAdjacentLocations(getLocation());
-            int births = breed();
-            for(int b = 0; b < births && free.size() > 0; b++) {
-                Location loc = free.remove(0);
-                Plant young = new Plant(field, loc);
-                newPlants.add(young);
-            }
+        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        int births = breed();
+        for(int b = 0; b < births && free.size() > 0; b++) {
+            Location loc = free.remove(0);
+            Plant young = new Plant(field, loc);
+            newPlants.add(young);
+        }
         
-        } 
         
         if(Weather.getWeather().equals("sunny")) {
             for (int i = 0 ; i < spreadRatio; i++){
-                Field field = getField();
                 Location newLocation = selectRandomLocation();
                 if(newLocation != null && field.getObjectAt(newLocation) == null) {
                     Plant youngPlant = new Plant(field, newLocation);
@@ -71,10 +79,13 @@ public class Plant extends Organism
         }
     }
     
+    /**
+     * Plant ages, gets breeding probability affected, and dies 
+     */
     public void act(List<Organism> newPlant){
         incrementAge();
         updateBP();
-        if (isAlive() ){//&& Time.isDay()){
+        if (isAlive() ){
             makeNewPlant(newPlant);
         }
         else {
@@ -82,14 +93,15 @@ public class Plant extends Organism
         }
     }
     
-    public int getAge(){
-        return age;
-    }
     
     public boolean isMature(){
         return mature;
     }
     
+    /**
+     * Increase the age.
+     * This could result in the organism's death.
+     */
     private void incrementAge()
         {
         age++;
@@ -103,7 +115,9 @@ public class Plant extends Organism
     
     //private methods
     
-    /** weather*/
+    /** 
+     * Change the breeding probability according to weather conditions
+     */
     private void updateBP()
     {
         if(Weather.getWeather().equals("clear")) {
@@ -117,15 +131,23 @@ public class Plant extends Organism
         }
     }
     
+    /**
+     * Generate a number representing the number of births,
+     * if it can breed.
+     * @return The number of births (may be zero).
+     */
     private int breed()
     {
         int births = 0;
         if(rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
+            births = rand.nextInt(MAX_OFFSPRING_SIZE) + 1;
         }
         return births;
     }
         
+    /**
+     * select a random location in the field
+     */
     private Location selectRandomLocation(){
         Field field = getField();
         

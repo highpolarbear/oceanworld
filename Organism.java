@@ -1,21 +1,19 @@
 import java.util.List;
 
 /**
- * Write a description of class Organism here.
+ * A class representing shared characteristics of organisms (living things).
  *
- * @author (your name)
- * @version (a version number or a date)!
+ * @author Cherry Lim Siang Sue, David Yin and Terry Phung
+ * @version 22.02.2019
  */
 public abstract class Organism
 {
-    // Whether the animal is alive or not.
+    // Whether the organism is alive or not.
     private boolean alive;
-    // The animal's field.
+    // The organism's field.
     private Field field;
-    // The animal's position in the field.
+    // The organism's position in the field.
     private Location location;
-    
-    protected int PLANT_FOOD_VALUE = 5;
     
     /**
      * Constructor for objects of class Organism
@@ -28,38 +26,25 @@ public abstract class Organism
     }
     
     /**
-     * Make this animal act - that is: make it do
+     * Make this organism act - that is: make it do
      * whatever it wants/needs to do.
-     * @param newAnimals A list to receive newly born animals.
+     * @param newOrganisms A list to receive newly born organisms.
      */
-    abstract public void act(List<Organism> newAnimals);
-    
-    abstract public int getAge();
+    abstract public void act(List<Organism> newOrganisms);
     
     /**
-     * Check whether the animal is alive or not.
-     * @return true if the animal is still alive.
+     * Check whether the organism is alive or not.
+     * @return true if the organism is still alive.
      */
     protected boolean isAlive()
     {
         return alive;
     }
-
+    
     /**
-     * Indicate that the animal is no longer alive.
+     * Indicate that the organism is no longer alive.
      * It is removed from the field.
      */
-    protected void setDead(Field nextField)
-    {
-        alive = false;
-        if(location != null) {
-            nextField.clear(location);
-            location = null;
-            nextField = null;
-        }
-
-    }
-    
     protected void setDead()
     {
          alive = false;
@@ -71,8 +56,8 @@ public abstract class Organism
     }
 
     /**
-     * Return the animal's location.
-     * @return The animal's location.
+     * Return the organism's location.
+     * @return The organism's location.
      */
     protected Location getLocation()
     {
@@ -80,8 +65,8 @@ public abstract class Organism
     }
     
     /**
-     * Place the animal at the new location in the given field.
-     * @param newLocation The animal's new location.
+     * Place the organism at the new location in the given field.
+     * @param newLocation The organism's new location.
      */
     protected void setLocation(Location newLocation, Field nextfield)
     {
@@ -92,13 +77,17 @@ public abstract class Organism
         nextfield.place(this, newLocation);
     }
     
+    /**
+     * Place the animal at the new location in the given field.
+     * @param newLocation The organism's new location.
+     */
     protected void setLocation(Location newLocation){
         setLocation(newLocation, field);
     }
     
     /**
-     * Return the animal's field.
-     * @return The animal's field.
+     * Return the organism's field.
+     * @return The organism's field.
      */
     protected Field getField()
     {
