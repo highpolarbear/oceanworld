@@ -26,6 +26,6 @@ Tasks completed :
  [ completed ] Extra Challenge tasks 
 
 
- [ working ] Disease
- [ working ] Ecosystem stabilisation
- [ working ] set values for weather
+ [ completed ] Disease
+ [ completed ] Ecosystem stabilisation
+ [ completed ] set values for weather
